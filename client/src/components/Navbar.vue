@@ -40,16 +40,16 @@
 <style scoped lang="scss">
 #nav {
     text-align: center;
-    background-color: #061921;
+    background-color: #3700B3;
     padding-bottom: 2rem;
     padding-top: 0;
     a {
         text-decoration: none;
         cursor: pointer;
         font-weight: bold;
-        color: #2c3e50;
+        color: #018786;
         &.router-link-exact-active {
-            color: #1673bd;
+            color: #ffffff;
         }
     }
 }
