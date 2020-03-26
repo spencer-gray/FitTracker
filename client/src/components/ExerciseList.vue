@@ -12,7 +12,10 @@
                 <template v-if="exercise.fields.category === category">
                     <!-- could have a exercise image field too-->
                     <td>{{ exercise.fields.name }}</td>
-                    <td v-html="exercise.fields.description"></td>
+                    <!-- period entries have 8 chars... that's why we want > 8-->
+                    <td v-if="exercise.fields.description.length > 8">{{ stripHtml(exercise.fields.description) }}</td>
+                    <td v-else>No Description Provided.</td>
+                    <!-- <td v-html="exercise.fields.description"></td> -->
                     <!-- <td>{{ exercise.fields.muscles }}</td>
                     <td>{{ exercise.fields.secondary_muscle }}</td> -->
                 </template>
@@ -29,6 +32,14 @@ export default {
         exercises: Array,
         category: Number,
     },
+    methods: {
+        // cleans up html tags from js string while retaining text inside
+        stripHtml: function(html){
+            var tmp = document.createElement("DIV");
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || "";
+        }
+    }
 };
 </script>
 

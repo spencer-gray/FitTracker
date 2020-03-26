@@ -1,28 +1,25 @@
 <template>
   <div id="app">
-    <Header title="Fitness Application"/>
+    <!-- <Header title="Fitness Application"/> -->
     <Navbar />
     <router-view/>
-    <!-- <ExerciseList /> -->
   </div>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+// import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
-//import ActivityLogComponent from './components/ActivityLogComponent.vue'
-// import ExerciseList from './components/ExerciseList.vue'
-
 
 export default {
   name: 'App',
   components: {
-    Header, Navbar
+    Navbar
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+
 body {
   margin: 0;
 }
@@ -44,4 +41,5 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>
