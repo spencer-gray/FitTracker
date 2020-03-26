@@ -28,12 +28,16 @@
         <template slot="end">
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <a class="button is-info">
-                        <strong>Sign up</strong>
-                    </a>
-                    <a class="button is-light">
-                        Log in
-                    </a>
+                    <b-button tag="router-link"
+                        to="/register"
+                        type="is-info">
+                        Sign Up
+                    </b-button>
+                    <b-button tag="router-link"
+                        to="/login"
+                        type="is-light">
+                        Log In
+                    </b-button>
                 </div>
             </b-navbar-item>
         </template>
