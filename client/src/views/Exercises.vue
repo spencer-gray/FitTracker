@@ -49,7 +49,7 @@ export default {
               this.category = 13;
           }
           //this.category = categoryToID(variable);
-          console.log(this.category);
+          //console.log(this.category);
       }
   },
 }

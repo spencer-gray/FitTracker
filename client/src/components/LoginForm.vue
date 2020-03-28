@@ -39,10 +39,11 @@ export default {
                 username: this.username,
                 password: this.password
             }
-            axios.post('http://localhost:5000/login', user)
+            axios.post('http://localhost:5000/users/login', user)
                 .then(res => {
                     // Successful login
                     if (res.status === 200) {
+                        this.$store.commit('setLoginState', true);
                         localStorage.setItem('token', res.data.token);
                         this.$router.push('/dashboard');
                     }
@@ -52,7 +53,14 @@ export default {
                     this.error = err.response.data.error
                 })
         }
-    }
+    },
+    // mounted() {
+    //     window.addEventListener('keyup', function(event) {
+    //         if (event.keyCode === 13) {
+    //             this.login();
+    //         }
+    //     })
+    // },
 };
 </script>
 

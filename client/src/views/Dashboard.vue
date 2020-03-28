@@ -1,13 +1,14 @@
 <template>
     <div>
         Dashboard
-        <button @click="logout">logout</button>
         {{ username }}
+        {{ getLoginState }}
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Dashboard',
@@ -24,17 +25,18 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost:5000/user', { headers: { token: localStorage.getItem('token')}})
+        axios.get('http://localhost:5000/users', { headers: { token: localStorage.getItem('token')}})
             .then(res => {
                 this.username = res.data.user.username;
                 this.email = res.data.user.email;
             })
     },
+    computed: mapGetters(['getLoginState']),
     methods: {
-        logout() {
-            localStorage.clear();
-            this.$router.push('/login');
-        }
+        // logout() {
+        //     localStorage.clear();
+        //     this.$router.push('/login');
+        // }
     }
 }
 </script>

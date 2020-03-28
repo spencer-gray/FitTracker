@@ -8,8 +8,11 @@
                 <!-- <img src="../assets/fittracker_logo.png"> -->
             </b-navbar-item>
         </template>
-        <template slot="start" >
-            <b-navbar-item tag="router-link" :to="{ path: '/' }">
+        <template slot="start" v-if='getLoginState === true'>
+            <b-navbar-item 
+                tag="router-link" 
+                :to="{ path: '/dashboard' }"
+            >
                 <p id="navbar-item">Dashboard</p>
             </b-navbar-item>
             <b-navbar-item tag="router-link" :to="{ path: '/exercises' }">
@@ -26,7 +29,7 @@
         </template>
 
         <template slot="end">
-            <b-navbar-item tag="div">
+            <b-navbar-item v-if='getLoginState === false' tag="div">
                 <div class="buttons">
                     <b-button tag="router-link"
                         to="/register"
@@ -40,6 +43,15 @@
                     </b-button>
                 </div>
             </b-navbar-item>
+            <b-navbar-item v-if='getLoginState === true' tag="div">
+                <div class="buttons">
+                    <b-button
+                        v-on:click="logout"
+                        type="is-info">
+                        Logout
+                    </b-button>
+                </div>
+            </b-navbar-item>
         </template>
     </b-navbar>
 </template>
@@ -49,28 +61,23 @@
 // Will below need when authentication is setup
 
 // import auth from '../auth'
+import { mapGetters } from 'vuex';
 
-// export default {
-//    name: "Header",
-//    data() {
-//       return {
-//          loggedIn: auth.loggedIn()
-//       }
-//    },
-//    created() {
-//       auth.onLoginStatusChanged = loggedIn => {
-//         console.log(`onLoginStatusChanged::loggedIn = ${loggedIn}`);
-//         this.loggedIn = loggedIn;
-//       }
-//    },
-//    methods: {
-//       logout: function() {
-//          auth.logout((response) => {
-//              console.log(response);
-//          });
-//       }
-//    },
-// };
+export default {
+    name: "Navbar",
+    props: {
+        loginState: Boolean
+    },
+    computed: mapGetters(['getLoginState']),
+    methods: {
+        logout() {
+            this.$store.commit('setLoginState', false);
+            localStorage.clear();           // clear token
+            this.$router.push('/login');    // redirect to login page
+        }
+    }
+}
+
 </script>
 
 <style scoped lang="scss">
