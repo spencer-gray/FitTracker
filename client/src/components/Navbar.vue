@@ -18,12 +18,12 @@
             <b-navbar-item tag="router-link" :to="{ path: '/exercises' }">
                 <p id="navbar-item">Exercises</p>
             </b-navbar-item>
-            <b-navbar-dropdown label="Info">
+            <b-navbar-dropdown label="Workouts">
                 <b-navbar-item href="#">
-                    <p id="navbar-item">About</p>
+                    <p id="navbar-item">Create New Workout</p>
                 </b-navbar-item>
                 <b-navbar-item href="#">
-                    <p id="navbar-item">Contact</p>
+                    <p id="navbar-item">View Activity Log</p>
                 </b-navbar-item>
             </b-navbar-dropdown>
         </template>

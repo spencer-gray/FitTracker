@@ -1,40 +1,89 @@
 <template>
+    
     <section>
         <div class="register">
             <div class="error">
                 {{ error }}
             </div>
-            <b-field label="Username">
-                <b-input placeholder="Username" v-model="username" maxlength="30"></b-input>
-            </b-field>
+            
+            <ValidationObserver ref='oberver' v-slot='{ passes }'>
 
-            <b-field label="Email">
-                <b-input placeholder="Email" v-model="email"></b-input>
-            </b-field>
+                <ValidationProvider rules="required" name="username" v-slot="{ errors, valid }">
+                    <b-field
+                    label="Username"
+                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                    :message="errors"
+                    >
+                    <b-input type="username" v-model="username"></b-input>
+                    </b-field>
+                </ValidationProvider>
+                <ValidationProvider rules="required|email" name="email" v-slot="{ errors, valid }">
+                    <b-field
+                    label="Email"
+                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                    :message="errors"
+                    >
+                    <b-input type="email" v-model="email"></b-input>
+                    </b-field>
+                </ValidationProvider>
 
-            <b-field label="Password" :message="['Password must have at least 8 characters']">
-                <b-input placeholder="Password" v-model="password" type="password" maxlength="30"></b-input>
-            </b-field>
+                <ValidationProvider
+                    rules="required"
+                    vid="password"
+                    name="password"
+                    v-slot="{ errors, valid }"
+                >
+                    <b-field
+                    label="Password"
+                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                    :message="errors"
+                    >
+                    <b-input type="password" v-model="password"></b-input>
+                    </b-field>
+                </ValidationProvider>
 
-            <div class="buttons">
-                <b-button type="is-dark" @click="register">
-                    Register
-                </b-button>
-            </div>
+                <ValidationProvider
+                    rules="required|confirmed:password"
+                    name="password confirmation"
+                    v-slot="{ errors, valid }"
+                >
+                    <b-field
+                    label="Confirm Password"
+                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                    :message="errors"
+                    >
+                    <b-input type="password" v-model="confirmation"></b-input>
+                    </b-field>
+                </ValidationProvider>
+
+                <div class="submit-buttons">
+                    <b-button type="is-dark" @click="passes(register)">
+                        <span>Register</span>
+                    </b-button>
+                </div>
+            </ValidationObserver>
         </div>
     </section>
 </template>
 
 <script>
 import axios from 'axios';
+import '../vee-validate';
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
+
 export default {
     name: 'Register',
+    components: {
+        ValidationObserver,
+        ValidationProvider
+    },
     data() {
         return {
             username: '',
             email: '',
-            password: '',   // add bcrypt
+            password: '',
             error: '',
+            confirmation: ''
         };
     },
     methods: {
@@ -67,6 +116,11 @@ export default {
 
 .error {
     margin: 5rem auto;
+    text-align: center;
+}
+
+.submit-buttons {
+    margin: 2rem auto;
     text-align: center;
 }
 

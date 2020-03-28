@@ -3,32 +3,61 @@
         <div class="error">
             {{ error }}
         </div>
-        <b-field label="Username">
-            <b-input placeholder="Username" v-model="username" maxlength="30"></b-input>
-        </b-field>
 
-        <b-field label="Password" :message="['Password must have at least 8 characters']">
-            <b-input placeholder="Password" v-model="password" type="password" maxlength="30"></b-input>
-        </b-field>
+        <ValidationObserver ref='oberver' v-slot='{ passes }'>
+            <ValidationProvider rules="required" name="username" v-slot="{ errors }">
+                <b-field
+                label="Username"
+                :type="{ 'is-danger': errors[0]}"
+                :message="errors"
+                >
+                <b-input type="username" v-model="username"></b-input>
+                </b-field>
+            </ValidationProvider>
 
-        <div class="buttons">
-            <b-button type="is-dark" @click="login">
-                Login
-            </b-button>
-            <router-link to="/register"><p>Not Registered?</p></router-link>
-        </div>
+            <ValidationProvider
+                rules="required"
+                vid="password"
+                name="password"
+                v-slot="{ errors }"
+            >
+                <b-field
+                label="Password"
+                :type="{ 'is-danger': errors[0]}"
+                :message="errors"
+                >
+                <b-input type="password" v-model="password"></b-input>
+                </b-field>
+            </ValidationProvider>
+
+            <div class="submit-buttons">
+                    <b-button type="is-dark" class="btn" @click="passes(login)">
+                        Login
+                    </b-button>
+                    <b-button type="is-dark" class="btn" tag="router-link" to="/register">
+                        Register
+                    </b-button>
+                <!-- <router-link to="/register"><p>Not Registered?</p></router-link> -->
+            </div>
+        </ValidationObserver>
     </section>
 </template>
 
 <script>
 import axios from 'axios';
+import '../vee-validate';
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 export default {
     name: 'LoginForm',
+    components: {
+        ValidationObserver,
+        ValidationProvider
+    },
     data() {
         return {
             username: '',
-            password: '',   // add bcrypt
+            password: '',
             
             error: '',
         };
@@ -71,14 +100,13 @@ export default {
     text-align: center;
 }
 
-/* div.content {
-    margin-top: 100px;
-    margin-left: 25px;
-    margin-bottom: 50px;
+.submit-buttons {
+    margin: 2rem auto;
+    text-align: center;
+}
 
-} */
+.btn {
+    margin: 0 0.25rem;
+}
 
-/* .login {
-    width: 80%;
-} */
 </style>
