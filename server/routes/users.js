@@ -1,93 +1,108 @@
 
 const express = require('express');
 const jwt = require('jsonwebtoken');
-//const fetch = require('node-fetch');
+const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
 
 const User = require('../models/User');
 
-const users = express.Router();
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Might need to use the cors lib here
-//users.user(cors());
+// Middleware
+app.use(cors());
 
 process.env.SECRET_KEY = 'secret'
 
-// Get users
-// users.get('/', async (req, res) => {
-//     const users = await loadUsersCollection();
-//     res.send(await users.find({}).toArray());   // return all users
-// });
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb+srv://sg:2utryeDeBZ9UMqUm@csci3230u-project-npzhs.mongodb.net/csci3230u-project?retryWrites=true&w=majority', 
+                    {   useUnifiedTopology: true , 
+                        useNewUrlParser: true });
 
-// Add users / Register handling
-// users.post('/register', async (req, res) => {
-//     const today = new Date();
-//     const userData = {
-//         username: req.body.username,
-//         password: req.body.password,
-//         created: today
-//     }
-
-//     User.findOne({
-//         username: req.body.username
-//     }).then(user => {
-//         if (!user) {
-//             bcrypt.hash(req.body.password, 10, (err, hash) => {
-//                 userData.password = hash;
-//                 User.create(userData)
-//                     .then(user => {
-//                         res.json({ status: user.username + 'Successfully Registered!' })
-//                     })
-//                     .catch(err => {
-//                         res.send('error: ' + err);
-//                     });
-//             })
-//         } else {
-//             res.json({ error: 'User already exists' });
-//         }
-//     })
-//     .catch(error => {
-//         res.send('error: ' + err);
-//     });
-// });
-
-// Check for existing user / Login component
-users.post('/login', (req, res) => {
-    User.findOne({
-        username: req.body.username
-    }).then(user => {
-        if (user) {
-            if (bcrypt.compareSync(req.body.password, user.password)) {
-                // Passwords match
-                const payload = {
-                    _id: user._id,
-                }
-                let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                    expiresIn: 1440
-                })
-                res.send(token);
-            } else {
-                // Passwords do not match
-                res.json({ error: 'User does not exist' });
-            }
+app.post('/register', (req, res, next) => {
+    const newUser = new User({
+        email: req.body.email,
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 10)
+    })
+    console.log(newUser);
+    newUser.save(err => {
+        if (err) {
+            return res.status(400).json({
+                title: 'error',
+                error: 'email or username already in use'
+            })
         } else {
-            res.json({ error: 'User does not exist' });
+            return res.status(200).json({
+                title: 'signup successful'
+            })
         }
-    }).catch(error => {
-        res.send('error: ' + error);
+    })
+});
+
+app.post('/login', (req, res, next) => {
+    User.findOne({ username: req.body.username }, (err, user) => {
+        if (err) return res.status(500).json({
+            title: 'server error',
+            error: err
+        })
+        if (!user) {
+            return res.status(401).json({
+                title: 'user not found',
+                error: 'invalid credentials'
+            })
+        }
+        // incorrect password
+        if (!bcrypt.compareSync(req.body.password, user.password)) {
+            return res.status(401).json({
+                title: 'login failed',
+                error: 'invalid credentials'
+            })
+        }
+        // password correct, create token
+        else {
+            let token = jwt.sign({ userId: user._id }, 'secretkey');
+            return res.status(200).json({
+                title: 'login success',
+                token: token
+            })
+        }
     })
 })
 
+// Get user data
+app.get('/', (req, res, next) => {
+    let token = req.headers.token;
+    jwt.verify(token, 'secretkey', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                title: 'Unauthorized'
+            });
+        } else {
+            // token is valid
+            User.findOne({ _id: decoded.userId }, (err, user) => {
+                if (err) {
+                    return console.log(err);
+                } else {
+                    return res.status(200).json({
+                        title: 'User retrieved',
+
+                        // limit the data provided to client (safety measure)
+                        user: {
+                            email: user.email,
+                            username: user.username
+                        }
+                    })
+                }
+            })
+        }
+    })
+});
 
 
-// load users
-// async function loadUsersCollection() {
-//     const client = await mongodb.MongoClient.connect('mongodb+srv://sg:2utryeDeBZ9UMqUm@csci3230u-project-npzhs.mongodb.net/test?retryWrites=true&w=majority', {
-//         useUnifiedTopology: true,
-        
-//     });
 
-//     return client.db('csci3230u-project').collection('users');
-// }
-
-module.exports = users;
+module.exports = app;
