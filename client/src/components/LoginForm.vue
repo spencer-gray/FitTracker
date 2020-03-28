@@ -1,17 +1,18 @@
 <template>
     <section>
+        <div class="error">
+            {{ error }}
+        </div>
         <b-field label="Username">
-            <b-input placeholder="Username" maxlength="30"></b-input>
+            <b-input placeholder="Username" v-model="username" maxlength="30"></b-input>
         </b-field>
 
         <b-field label="Password" :message="['Password must have at least 8 characters']">
-            <b-input placeholder="Password" type="password" maxlength="30"></b-input>
+            <b-input placeholder="Password" v-model="password" type="password" maxlength="30"></b-input>
         </b-field>
 
         <div class="buttons">
-            <b-button tag="router-link"
-                to="/login"
-                type="is-dark">
+            <b-button type="is-dark" @click="login">
                 Login
             </b-button>
             <router-link to="/register"><p>Not Registered?</p></router-link>
@@ -20,19 +21,47 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'LoginForm',
-    props: {
-        users: Array,
-        status: Boolean,
+    data() {
+        return {
+            username: '',
+            password: '',   // add bcrypt
+            
+            error: '',
+        };
     },
     methods: {
+        login() {
+            let user = {
+                username: this.username,
+                password: this.password
+            }
+            axios.post('http://localhost:5000/login', user)
+                .then(res => {
+                    // Successful login
+                    if (res.status === 200) {
+                        localStorage.setItem('token', res.data.token);
+                        this.$router.push('/dashboard');
+                    }
 
+                }, err => {
+                    console.log(err.response);
+                    this.error = err.response.data.error
+                })
+        }
     }
 };
 </script>
 
 <style>
+
+.error {
+    margin: 2rem auto;
+    text-align: center;
+}
 
 /* div.content {
     margin-top: 100px;
