@@ -1,22 +1,32 @@
 <template>
+    <ValidationObserver ref='oberver' v-slot='{ passes }'>
     <div class="addworkout">
         <table class="table">
             <thead>
                 <tr>
-                    <th align='center'><strong>Title</strong></th>
+                    <th align='center'><strong>Exercise</strong></th>
                     <th align='center'><strong>Reps</strong></th>
                     <th align='center'><strong>Sets</strong></th>
                     <th align='center'><strong>Weight</strong></th>
-                    <!-- <th></th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr v-bind:key="row.id" v-for="(row, index) in rows">
 
                     <td>
-                        <b-field>
-                                <b-input size="is-small" v-model="row.exercise"/>
-                        </b-field>
+                        <ValidationProvider rules="required" name="exercise" v-slot="{ errors }">
+                            <b-field :type="{ 'is-danger': errors[0]}">
+                                <b-select placeholder="Exercise" size="is-small" v-model="row.exercise">
+                                    <option v-for="exercise in exerciseData" :key="exercise.id">
+                                        {{ exercise.fields.name }}
+                                    </option>
+                                </b-select>
+                                <!-- <b-autocomplete v-model="row.exercise" placeholder="e.g. Bench Press"
+                                    :keep-first="true" :open-on-focus="true" :data="filteredData"
+                                    field="exercise.name" @select="option => selected = option">
+                                </b-autocomplete> -->
+                            </b-field>
+                        </ValidationProvider>
                     </td>
                     <td>
                         <b-field>
@@ -52,32 +62,45 @@
                 <b-button type="is-success" class="btn" @click="addRow">
                     Add Exercise
                 </b-button>
-                <b-button type="is-dark" class="btn">
+                <b-button type="is-dark" class="btn" @click="passes(addWorkout)">
                     Save Workout
                 </b-button>
             </div>
         </div>
     </div>
+    </ValidationObserver>
  </template>
 
 <script>
 
+import axios from 'axios';
+import { ValidationObserver, ValidationProvider } from 'vee-validate';
+
+// pull exercise data
 export default {
     name: 'AddWorkout',
+    components: {
+        ValidationObserver, 
+        ValidationProvider
+    },
     data() {
         return {
-            rows: []
+            rows: [],
+            exerciseData: []
         };
     },
-    created() {
+    created: function() {
         // If user is already authenticated, send back to dashboard
         if (localStorage.getItem('token') === null) {
             this.$router.push('dashboard');
+        } else {
+            axios.get('http://localhost:5000/api/exercise_data')
+                .then((response) => this.exerciseData = response.data)
+                .catch((error) => console.log(error));
         }
     },
     methods: {
         addRow: function() {
-            // var elem = document.createElement('tr');
             this.rows.push({
                 exercise: '',
                 reps: 0,
@@ -87,6 +110,9 @@ export default {
         },
         removeRow: function(index) {
             this.rows.splice(index, 1);
+        },
+        addWorkout: function() {
+            console.log('add workout');
         }
     }
 }
