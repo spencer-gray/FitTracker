@@ -31,13 +31,10 @@
             </ValidationProvider>
 
             <div class="submit-buttons">
-                    <b-button type="is-dark" class="btn" @click="passes(login)">
+                    <b-button type="is-dark" class="btn" expanded @click="passes(login)">
                         Login
                     </b-button>
-                    <b-button type="is-dark" class="btn" tag="router-link" to="/register">
-                        Register
-                    </b-button>
-                <!-- <router-link to="/register"><p>Not Registered?</p></router-link> -->
+                <router-link to="/register"><p>Don't have an account? Sign up</p></router-link>
             </div>
         </ValidationObserver>
     </section>
@@ -104,8 +101,6 @@ export default {
 </script>
 
 <style lang="scss">
-
-//$snack-background-color: #023ff1;
 
 .error {
     margin: 2rem auto;

@@ -20,19 +20,19 @@
                     </td>
                     <td>
                         <b-field>
-                                <b-numberinput expanded=true size="is-small" controls-position="compact" controls-rounded 
+                                <b-numberinput :expanded="true" size="is-small" controls-position="compact" controls-rounded 
                                     v-model="row.reps" type='is-dark' min="0" max="1000"/>
                         </b-field>
                     </td>
                     <td>
                         <b-field>
-                                <b-numberinput expanded=true size="is-small" controls-position="compact" controls-rounded 
+                                <b-numberinput :expanded="true" size="is-small" controls-position="compact" controls-rounded 
                                     v-model="row.sets" type='is-dark' min="0" max="1000"/>
                         </b-field>
                     </td>
                     <td>
                         <b-field>
-                                <b-numberinput expanded=true size="is-small" controls-position="compact" controls-rounded 
+                                <b-numberinput :expanded="true" size="is-small" controls-position="compact" controls-rounded 
                                     v-model="row.weight" type='is-dark' min="0" max="1000"/>
                         </b-field>
                     </td>
@@ -52,7 +52,7 @@
                 <b-button type="is-success" class="btn" @click="addRow">
                     Add Exercise
                 </b-button>
-                <b-button type="is-dark" class="btn" @click="addRow">
+                <b-button type="is-dark" class="btn">
                     Save Workout
                 </b-button>
             </div>
@@ -64,11 +64,6 @@
 
 export default {
     name: 'AddWorkout',
-    propss: {
-        value: {
-            type: Number
-        }
-    },
     data() {
         return {
             rows: []
