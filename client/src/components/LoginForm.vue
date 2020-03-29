@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="error">
+        <div class="container error">
             {{ error }}
         </div>
 
@@ -73,13 +73,23 @@ export default {
                     // Successful login
                     if (res.status === 200) {
                         this.$store.commit('setLoginState', true);
+                        this.$buefy.toast.open({
+                            message: 'Successful login!',
+                            type: 'is-success',
+                        })
                         localStorage.setItem('token', res.data.token);
                         this.$router.push('/dashboard');
                     }
 
                 }, err => {
                     console.log(err.response);
-                    this.error = err.response.data.error
+                    //this.error = err.response.data.error
+                    this.$buefy.toast.open({
+                            duration: 5000,
+                            message: 'Invalid login - username/password do not exist!',
+                            type: 'is-danger',
+                            
+                    })
                 })
         }
     },
@@ -93,7 +103,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+
+//$snack-background-color: #023ff1;
 
 .error {
     margin: 2rem auto;

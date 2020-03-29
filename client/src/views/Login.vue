@@ -1,15 +1,11 @@
 <template>
   <div class="login">
-    <!-- <div class="header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Muscular_system.svg/1200px-Muscular_system.svg.png" alt="Muscular system.svg" width="150px">
-    </div> -->
     <LoginForm :users="users" :status="status"/>
   </div>
 </template>
 
 <script>
 import LoginForm from '@/components/LoginForm.vue';
-//import AddContact from '@/components/AddContact.vue';
 //import axios from 'axios';
 
 export default {
@@ -22,18 +18,15 @@ export default {
         users: ["bill", "admin", "spence"],
         status: false,
         username: "",
-        password: "",   // add bcrypt
+        password: "",
     };
   },
-//   created: function() {
-//     // need to retrieve users
-//     // axios.get('http://localhost:5000/api/exercise_data')
-//     //      .then((response) => this.exercises = response.data)
-//     //      .catch((error) => console.log(error));
-//   },
-//   methods: {
-    
-//   },
+  created() {
+      // If user is already authenticated, send back to dashboard
+      if (localStorage.getItem('token') != null) {
+          this.$router.push('dashboard');
+      }
+  },
 }
 </script>
 

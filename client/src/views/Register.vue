@@ -5,7 +5,7 @@
             <div class="error">
                 {{ error }}
             </div>
-            
+
             <ValidationObserver ref='oberver' v-slot='{ passes }'>
 
                 <ValidationProvider rules="required" name="username" v-slot="{ errors, valid }">
@@ -86,6 +86,12 @@ export default {
             confirmation: ''
         };
     },
+    created() {
+        // If user is already authenticated, send back to dashboard
+        if (localStorage.getItem('token') != null) {
+        this.$router.push('dashboard');
+        }
+    },
     methods: {
         register() {
             let newUser = {
@@ -98,9 +104,18 @@ export default {
                     console.log(res);
                     this.error = '';
                     this.$router.push('/login');
+                    this.$buefy.toast.open({
+                            message: 'Successful Registration!',
+                            type: 'is-success',
+                    })
                 }, err => {
                     console.log(err.response);
-                    this.error = err.response.data.error;
+                    //this.error = err.response.data.error;
+                    this.$buefy.toast.open({
+                            duration: 5000,
+                            message: 'Invalid registration - username/email already taken!',
+                            type: 'is-danger',
+                    })
                 })
         }
     }

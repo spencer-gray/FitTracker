@@ -1,8 +1,6 @@
 <template>
-    <div>
-        Dashboard
-        {{ username }}
-        {{ getLoginState }}
+    <div class="dash-title">
+        {{ username }}'s Dashboard
     </div>
 </template>
 
@@ -33,10 +31,17 @@ export default {
     },
     computed: mapGetters(['getLoginState']),
     methods: {
-        // logout() {
-        //     localStorage.clear();
-        //     this.$router.push('/login');
-        // }
+        
     }
 }
 </script>
+
+<style scoped lang="scss">
+
+.dash-title {
+    margin: 1rem auto;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+</style>

@@ -27,9 +27,14 @@ export default {
     };
   },
   created: function() {
-    axios.get('http://localhost:5000/api/exercise_data')
-         .then((response) => this.exercises = response.data)
-         .catch((error) => console.log(error));
+    // User is not authorized, redirect to login page
+    if (localStorage.getItem('token') === null) {
+        this.$router.push('login');
+    } else {
+      axios.get('http://localhost:5000/api/exercise_data')
+          .then((response) => this.exercises = response.data)
+          .catch((error) => console.log(error));
+    }
   },
   methods: {
       updateClickedCat(variable) {
