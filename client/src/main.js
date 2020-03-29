@@ -5,6 +5,10 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import store from './store';
 
+// font awesome library
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 Vue.use(Buefy, {
   defaultIconPack: 'fas'
 })

@@ -19,7 +19,7 @@
                 <p id="navbar-item">Exercises</p>
             </b-navbar-item>
             <b-navbar-dropdown label="Workouts">
-                <b-navbar-item href="#">
+                <b-navbar-item tag="router-link" :to="{ path: '/add-workout' }">
                     <p id="navbar-item">Create New Workout</p>
                 </b-navbar-item>
                 <b-navbar-item href="#">

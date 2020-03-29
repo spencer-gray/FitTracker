@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <LoginForm :users="users" :status="status"/>
+    <LoginForm/>
   </div>
 </template>
 
@@ -15,9 +15,7 @@ export default {
   },
   data() {
     return {
-        users: ["bill", "admin", "spence"],
-        status: false,
-        username: "",
+        username: "",   // same ...
         password: "",
     };
   },
