@@ -72,6 +72,7 @@ export default {
     methods: {
         logout() {
             this.$store.commit('setLoginState', false);
+            this.$store.commit('setUsername', '');
             localStorage.clear();           // clear token
             this.$router.push('/login');    // redirect to login page
         }

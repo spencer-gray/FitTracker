@@ -1,6 +1,14 @@
 <template>
     <ValidationObserver ref='oberver' v-slot='{ passes }'>
     <div class="addworkout">
+        <div class="date">
+            <ValidationProvider rules="required" v-slot="{ errors }">
+                <b-field label="Date" :type=" {'is-danger': errors[0]}">
+                    <b-datepicker v-model="date" placeholder="Select a date..." 
+                        icon="calendar-day" trap-focus />
+                </b-field>
+            </ValidationProvider>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -74,6 +82,7 @@
 <script>
 
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { ValidationObserver, ValidationProvider } from 'vee-validate';
 
 // pull exercise data
@@ -86,7 +95,8 @@ export default {
     data() {
         return {
             rows: [],
-            exerciseData: []
+            exerciseData: [],
+            date: new Date()
         };
     },
     created: function() {
@@ -99,6 +109,7 @@ export default {
                 .catch((error) => console.log(error));
         }
     },
+    computed: mapGetters(['getUsername']),
     methods: {
         addRow: function() {
             this.rows.push({
@@ -111,8 +122,29 @@ export default {
         removeRow: function(index) {
             this.rows.splice(index, 1);
         },
-        addWorkout: function() {
-            console.log('add workout');
+        addWorkout() {
+            let workout = {
+                username: this.$store.getters.getUsername,
+                exercises: this.rows,
+                date: this.date
+            }
+            axios.post('http://localhost:5000/workouts/addworkout', workout)
+                .then(res => {
+                    console.log(res);
+                    this.error = '';
+                    this.$router.push('/activity-log');
+                    this.$buefy.toast.open({
+                            message: 'Workout created!',
+                            type: 'is-success',
+                    })
+                }, err => {
+                    console.log(err.response);
+                    //this.error = err.response.data.error;
+                    this.$buefy.toast.open({
+                            message: 'Failed to create workout!',
+                            type: 'is-danger',
+                    })
+                })
         }
     }
 }
@@ -123,6 +155,12 @@ export default {
 .addworkout {
     width: 80%;
     margin: 5rem auto;
+}
+
+.date {
+    width: 50%;
+    margin: 3rem auto;
+    min-width: 200px;
 }
 
 .table { 

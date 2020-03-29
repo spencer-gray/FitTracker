@@ -12,6 +12,9 @@ app.use(cors());
 // User Data
 app.use('/users', require('./routes/users'));
 
+// Workout Data
+app.use('/workouts', require('./routes/workouts'));
+
 // Exercise Data / Images
 app.use('/api/exercise_data', require('./routes/api/exercise_data'));
 

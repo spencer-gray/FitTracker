@@ -1,4 +1,8 @@
-// Probably won't need this file
+
+/*
+    DEPRECIATED: NO LONGER USING - CONSIDER DELETING
+*/
+
 
 const express = require('express');
 const fetch = require('node-fetch');

@@ -70,6 +70,7 @@ export default {
                     // Successful login
                     if (res.status === 200) {
                         this.$store.commit('setLoginState', true);
+                        this.$store.commit('setUsername', this.username);
                         this.$buefy.toast.open({
                             message: 'Successful login!',
                             type: 'is-success',
