@@ -83,7 +83,6 @@ export default {
                     console.log(err.response);
                     //this.error = err.response.data.error
                     this.$buefy.toast.open({
-                            duration: 5000,
                             message: 'Invalid login - username/password do not exist!',
                             type: 'is-danger',
                             

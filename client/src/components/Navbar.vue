@@ -22,7 +22,7 @@
                 <b-navbar-item tag="router-link" :to="{ path: '/add-workout' }">
                     <p id="navbar-item">Create New Workout</p>
                 </b-navbar-item>
-                <b-navbar-item href="#">
+                <b-navbar-item tag="router-link" :to="{ path: '/activity-log' }">
                     <p id="navbar-item">View Activity Log</p>
                 </b-navbar-item>
             </b-navbar-dropdown>

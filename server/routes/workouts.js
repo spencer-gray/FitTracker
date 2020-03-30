@@ -13,18 +13,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Middleware
 app.use(cors());
 
+// Connect to mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb+srv://sg:2utryeDeBZ9UMqUm@csci3230u-project-npzhs.mongodb.net/csci3230u-project?retryWrites=true&w=majority', 
                     {   useUnifiedTopology: true , 
                         useNewUrlParser: true });
 
+// Post request to store workout data                        
 app.post('/addworkout', (req, res, next) => {
     const newWorkout = new Workout({
         username: req.body.username,
         exercises: req.body.exercises,
         date: req.body.date
     })
-    console.log(newWorkout);
     newWorkout.save(err => {
         if (err) {
             return res.status(400).json({
@@ -39,14 +40,22 @@ app.post('/addworkout', (req, res, next) => {
     })
 });
 
-// Get workout data
-app.get('/', async (req, res) => {  
-    try {
-        var result = await Workout.find().exec();
-        res.send(result);
-    } catch (err) {
-        res.statuz(500).send(err);
-    }
+// Get workout data - query by username
+app.get('/', (req, res) => {  
+    search = req.query.username;
+    Workout.find({ username: search })
+        .then(workouts => res.json(workouts))
+        .catch(err => res.status(404).send(err));
 });
+
+// Get workout data (Depreciated: retrieves all workouts - might be of use later)
+// app.get('/', async (req, res) => {  
+//     try {
+//         var result = await Workout.find().exec();
+//         res.send(result);
+//     } catch (err) {
+//         res.status(500).send(err);
+//     }
+// });
 
 module.exports = app;
