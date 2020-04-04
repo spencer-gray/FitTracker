@@ -8,6 +8,7 @@
             <ValidationProvider rules="required" name="username" v-slot="{ errors }">
                 <b-field
                 label="Username"
+                @keyup.enter.native="login"
                 :type="{ 'is-danger': errors[0]}"
                 :message="errors"
                 >
@@ -23,6 +24,7 @@
             >
                 <b-field
                 label="Password"
+                @keyup.enter.native="login"
                 :type="{ 'is-danger': errors[0]}"
                 :message="errors"
                 >

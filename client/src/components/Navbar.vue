@@ -47,10 +47,18 @@
             <b-navbar-item v-if='getLoginState === true' tag="div">
                 <div class="buttons">
                     <b-button
+                        class="profileButton"
+                        icon-left="user"
+                        tag="router-link"
+                        to="/profile">
+                        Profile
+                    </b-button>
+                    <b-button
                         class="logoutButton"
                         v-on:click="logout">
                         Logout
                     </b-button>
+                    
                 </div>
             </b-navbar-item>
         </template>
@@ -75,8 +83,9 @@ export default {
             this.$store.commit('setLoginState', false);
             this.$store.commit('setUsername', '');
             localStorage.clear();           // clear token
-            // this.$router.push('/');    // dont redirect anywhere
-        }
+            this.$router.push('/');    // redirect
+        },
+        profile() {}
     }
 }
 
@@ -139,6 +148,17 @@ export default {
     background-color: white;
     color: #30475e;
 }
+
+.profileButton{
+    background-color: #ba6b57;
+    color:white;
+}
+
+.profileButton:hover {
+    background-color: white;
+    color: #30475e;
+}
+
 #nav-routes {
     padding-left: 50px;
 }

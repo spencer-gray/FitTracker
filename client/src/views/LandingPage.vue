@@ -57,12 +57,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "LandingPage",
-  // created() {
-  //     // User is not authorized, redirect to login page
-  //     if (localStorage.getItem('token') === null) {
-  //         this.$router.push('login');
-  //     }
-  // },
   data() {
     return {
       // need to figure out color scheme of app
@@ -84,16 +78,16 @@ export default {
   computed: mapGetters(["getLoginState", "getUsername"]),
   methods: {
     dashboard() {
-      this.$router.push("/dashboard"); // dont redirect anywhere
+      this.$router.push("/dashboard"); 
     },
     excercises() {
-      this.$router.push("/exercises"); // dont redirect anywhere
+      this.$router.push("/exercises"); 
     },
     track() {
-      this.$router.push("/add-workout"); // dont redirect anywhere
+      this.$router.push("/add-workout"); 
     },
     saved() {
-      this.$router.push("/activity-log"); // dont redirect anywhere
+      this.$router.push("/activity-log");
     }
   }
 };
@@ -112,12 +106,6 @@ div {
   text-align: center;
 }
 
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-auto-rows: 30%;
-}
-
 .box1 {
   margin-left: 5%;
   margin-right: 5%;
@@ -127,6 +115,9 @@ div {
 }
 
 .box1:hover {
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
   background-color: #30475e;
   cursor: pointer;
 }
@@ -141,7 +132,10 @@ div {
 }
 
 .box2:hover {
-  background-color: #ba6b57;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
+  background-color: #30475e;
   cursor: pointer;
 }
 
@@ -155,7 +149,10 @@ div {
 }
 
 .box3:hover {
-  background-color: #f1935c;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
+  background-color: #30475e;
   cursor: pointer;
 }
 
@@ -169,7 +166,10 @@ div {
 }
 
 .box4:hover {
-  background-color: #e7b2a5;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
+  background-color: #30475e;
   cursor: pointer;
 }
 </style>
