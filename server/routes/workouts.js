@@ -43,7 +43,7 @@ app.post('/addworkout', (req, res, next) => {
 // Get workout data - query by username
 app.get('/', (req, res) => {  
     search = req.query.username;
-    Workout.find({ username: search })
+    Workout.find({ username: search }).sort({date:-1})
         .then(workouts => res.json(workouts))
         .catch(err => res.status(404).send(err));
 });
