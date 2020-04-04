@@ -76,7 +76,7 @@ export default {
                             type: 'is-success',
                         })
                         localStorage.setItem('token', res.data.token);
-                        this.$router.push('/dashboard');
+                        this.$router.push('/');
                     }
 
                 }, err => {
