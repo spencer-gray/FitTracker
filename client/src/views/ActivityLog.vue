@@ -36,6 +36,7 @@
                       hoverable
                       selectable
                       @select="selected"
+                      class="detail-table"
                       :striped="true">
                       <template slot-scope="props">
                           <b-table-column field="exercises" label="Exercise" centered>
@@ -49,14 +50,17 @@
                           </b-table-column>
                           <b-table-column field="weight" label="Weight" centered>
                               {{ props.row.weight }}
+                              <!-- {{ item._id }} -->
                           </b-table-column>
                       </template>
                   </b-table>
                 </div>
             </div>
             <footer class="card-footer">
+              <router-link to="" class="edit-button">
                 <a class="card-footer-item">Edit</a>
-                <a class="card-footer-item">Delete</a>
+              </router-link>
+                <a class="card-footer-item" @click="deleteWorkout(item._id)">Delete</a>
             </footer>
         </b-collapse>
     </div>
@@ -83,8 +87,7 @@ export default {
       workouts: [],
       username: '',
       current: 1,
-      perPage: 3,
-    //   selected: Object
+      perPage: 5,
     };
   },
   created: function() {
@@ -117,9 +120,34 @@ export default {
     },
   },
   methods: {
-      selected() {
-          console.log('row has been clicked...');
-      }
+    deleteWorkout(id) {
+      let workout = {
+        id: id,
+      };
+      //let id = this.id;
+      axios.post("http://localhost:5000/workouts/deleteworkout", workout).then(
+        res => {
+          console.log(res);
+          const index = this.workouts.findIndex(workout => workout._id == id) // find workout index
+          if (~index) {
+            this.workouts.splice(index, 1);
+          }
+          this.$buefy.toast.open({
+            message: "Workout successfully deleted!",
+            type: "is-success"
+          });
+        },
+        err => {
+          console.log(err.response);
+          this.$buefy.toast.open({
+            message: "Failed to delete workout!",
+            type: "is-danger"
+          });
+        });
+    },
+    selected() {
+        console.log('row has been clicked...');
+    }
   }
 }
 </script>
@@ -151,6 +179,16 @@ export default {
   color: #30475e;
 }
 
+.card-content { 
+  margin: -2rem 0 2rem;
+  color: #30475e;
+}
+
+.detail-table .table {
+  color: #30475e;
+  background: gold;
+}
+
 .total-weight {
   min-width: 75px;
 }
@@ -166,6 +204,31 @@ export default {
 
 .date {
   padding: 2rem;
+}
+
+td {
+  color: #30475e;
+  font-weight: 800;
+}
+
+.card-footer { 
+  color: #30475e;
+  font-weight: 800;
+}
+
+.card-footer-item {
+  background-color: #30475e;
+  color: white;
+}
+
+.card-footer-item:hover {
+  background-color: #d1d1d1;
+  color: #30475e;
+}
+
+.edit-button {
+  width: 50%;
+  border-right: 1px solid #ffffff;
 }
 
 </style>

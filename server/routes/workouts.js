@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const Workout = require('../models/Workout');
 
@@ -39,6 +40,25 @@ app.post('/addworkout', (req, res, next) => {
         }
     })
 });
+
+// Delte workout
+app.post('/deleteworkout', (req, res) => {
+
+    const id = new ObjectId(req.body.id);
+
+    Workout.deleteOne({_id: id}, function(error) {
+        if (error) {
+            return res.status(400).json({
+                title: 'error',
+                error: 'Error deleting new workout'
+            })
+        } else {
+            return res.status(200).json({
+                title: 'Successfully deleted workout'
+            })
+        }
+    });
+})
 
 // Get workout data - query by username
 app.get('/', (req, res) => {  
