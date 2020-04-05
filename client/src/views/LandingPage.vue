@@ -1,37 +1,42 @@
 <template>
   <!-- if user exists, then output this page -->
-  <div class="dash-title" v-if="getUsername === ''">
-    Welcome to FitTracker
+  <div v-if="getUsername === ''">
     <b-carousel>
       <b-carousel-item v-for="(carousel, i) in VisitorCarousels" :key="i">
-        <section :class="`hero is-medium`" :style="`background-color:${carousel.color};`">
-          <div class="hero-body has-text-centered">
-            <h1 class="title" style="color:white;">{{carousel.text}}</h1>
+        <section :class="`hero is-small`">
+          <div class="container hero-body has-text-centered">
+            <span class="image">
+              <img :src="`${carousel.image}`" />
+            </span>
+            <h1 class="center title" style="color:white;">{{carousel.text}}</h1>
           </div>
         </section>
       </b-carousel-item>
     </b-carousel>
-    <br />Please
-    <a href="http://localhost:8080/#/register">sign up</a>
-    or
-    <a href="http://localhost:8080/#/login">log in</a>
-    to take advantage of this great tracker!
+    <div class="dash-title">
+      Please
+      <a href="http://localhost:8080/#/register">sign up</a>
+      or
+      <a href="http://localhost:8080/#/login">log in</a>
+      to take advantage of this great tracker!
+    </div>
   </div>
   <!-- if user does not exists, then output this page -->
-  <div class="dash-title" v-else-if="getUsername !== ''">
-    Welcome to FitTracker, {{ getUsername }}!
+  <div v-else-if="getUsername !== ''">
     <b-carousel>
       <b-carousel-item v-for="(carousel, i) in UserCarousels" :key="i">
-        <section :class="`hero is-medium`" :style="`background-color:${carousel.color};`">
-          <div class="hero-body has-text-centered">
-            <h1 class="title" style="color:white;">{{carousel.text}}</h1>
+        <section :class="`hero is-small`">
+          <div class="container hero-body has-text-centered">
+            <span class="image">
+              <img :src="`${carousel.image}`" />
+            </span>
+            <h1 class="center title" style="color:white;">{{carousel.text}}</h1>
           </div>
         </section>
       </b-carousel-item>
     </b-carousel>
-    <br />Enjoy!
-    <br />
-    <div class="wrapper">
+    <div class="dash-title">Enjoy, {{ getUsername }}!</div>
+    <div class="wrapper dash-title">
       <div class="box1" v-on:click="dashboard">
         Analyze Dashboard...
         <div>Checkout graphs, analytics, ...</div>
@@ -59,47 +64,87 @@ export default {
   name: "LandingPage",
   data() {
     return {
+      progress: true,
+      progressType: "is-primary",
       // need to figure out color scheme of app
       // can change texts of slide once features are figured out
       VisitorCarousels: [
-        { text: "Get fit now!", color: "#30475e" },
-        { text: "Create your own profile...", color: "#ba6b57" },
-        { text: "Track your workouts...", color: "#f1935c" },
-        { text: "OTHER FEATURES...", color: "#e7b2a5" }
+        {
+          text: "Welcome to FitTracker!",
+          image: `https://source.unsplash.com/WvDYdXDzkhs`
+        },
+        {
+          text: "Create your own profile...",
+          image: `https://source.unsplash.com/DBhIAuHyjPM`
+        },
+        {
+          text: "Track your workouts...",
+          image: `https://source.unsplash.com/H6wTktsFxik`
+        },
+        {
+          text: "OTHER FEATURES...",
+          image: `https://source.unsplash.com/zGerGuIC3RA`
+        }
       ],
       UserCarousels: [
-        { text: "Time to get fit!", color: "#30475e" },
-        { text: "Check out your dashboard...", color: "#ba6b57" },
-        { text: "Start tracking your workouts...", color: "#f1935c" },
-        { text: "OTHER FEATURES...", color: "#e7b2a5" }
+        {
+          text: "Welcome to FitTracker!",
+          image: `https://source.unsplash.com/zGerGuIC3RA`
+        },
+        {
+          text: "Check out your dashboard...",
+          image: `https://source.unsplash.com/WvDYdXDzkhs`
+        },
+        {
+          text: "Start tracking your workouts..",
+          image: `https://source.unsplash.com/H6wTktsFxik`
+        },
+        {
+          text: "OTHER FEATURES...",
+          image: `https://source.unsplash.com/DBhIAuHyjPM`
+        }
       ]
     };
   },
   computed: mapGetters(["getLoginState", "getUsername"]),
   methods: {
     dashboard() {
-      this.$router.push("/dashboard"); 
+      this.$router.push("/dashboard");
     },
     excercises() {
-      this.$router.push("/exercises"); 
+      this.$router.push("/exercises");
     },
     track() {
-      this.$router.push("/add-workout"); 
+      this.$router.push("/add-workout");
     },
     saved() {
       this.$router.push("/activity-log");
-    }
+    },
   }
 };
 </script>
 
 <style scoped lang="scss">
-div {
-  padding-top: 1rem;
+.container {
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+  // position: relative;
+  // text-align: center;
+  color: white;
+}
+
+.center {
+  //add shadow against light coloured background
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .dash-title {
-  padding-top: 3rem;
+  padding-top: 0rem;
   margin: 1rem auto;
   font-size: 22px;
   font-weight: 700;
