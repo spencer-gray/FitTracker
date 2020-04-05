@@ -1,10 +1,10 @@
 <template>
-  <!-- if user exists, then output this page -->
+  <!-- if user does not exists, then output this page -->
   <div v-if="getUsername === ''">
-    <b-carousel>
+    <b-carousel class="">
       <b-carousel-item v-for="(carousel, i) in VisitorCarousels" :key="i">
         <section :class="`hero is-small`">
-          <div class="container hero-body has-text-centered">
+          <div class="wrapper hero-body has-text-centered">
             <span class="image">
               <img :src="`${carousel.image}`" />
             </span>
@@ -21,12 +21,12 @@
       to take advantage of this great tracker!
     </div>
   </div>
-  <!-- if user does not exists, then output this page -->
+  <!-- if user exists, then output this page -->
   <div v-else-if="getUsername !== ''">
     <b-carousel>
       <b-carousel-item v-for="(carousel, i) in UserCarousels" :key="i">
         <section :class="`hero is-small`">
-          <div class="container hero-body has-text-centered">
+          <div class="wrapper hero-body has-text-centered">
             <span class="image">
               <img :src="`${carousel.image}`" />
             </span>
@@ -119,18 +119,16 @@ export default {
     },
     saved() {
       this.$router.push("/activity-log");
-    },
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.container {
+.wrapper {
   height: 500px;
   width: 100%;
   overflow: hidden;
-  // position: relative;
-  // text-align: center;
   color: white;
 }
 
