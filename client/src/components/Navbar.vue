@@ -118,12 +118,22 @@ export default {
     color: #30475e;
 }
 
+.signUpButton:focus {
+    background-color: white;
+    color: #30475e;
+}
+
 .loginButton{
     background-color: #30475e;
     color:white;
 }
 
 .loginButton:hover {
+    background-color: white;
+    color: #30475e;
+}
+
+.loginButton:focus {
     background-color: white;
     color: #30475e;
 }
@@ -138,12 +148,22 @@ export default {
     color: #30475e;
 }
 
+.logoutButton:focus {
+    background-color: white;
+    color: #30475e;
+}
+
 .profileButton{
     background-color: #30475e;
     color:white;
 }
 
 .profileButton:hover {
+    background-color: white;
+    color: #30475e;
+}
+
+.profileButton:focus {
     background-color: white;
     color: #30475e;
 }

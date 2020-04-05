@@ -1,15 +1,12 @@
 <template>
 <div id="exerciseButtons">
-        <b-button
-            v-for="(btn, idx) in buttons"
-            :key="idx"
-            v-on:click="updateCategory"
-            type="is-info"
-            outlined
-            size="is-medium"
-        >
-            {{ btn.caption }}
-        </b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Abs</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Arms</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Back</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Calves</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Chest</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Legs</b-button>
+    <b-button class="category-btn" v-on:click="updateCategory">Shoulders</b-button>
 </div>    
 </template>
 
@@ -41,9 +38,28 @@ export default {
 <style scoped lang="scss">
 #exerciseButtons {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: center;
     margin: 3em auto;
     width: 50%;
     text-align: center;
+}
+
+.category-btn {
+    margin: 0.5rem 0.5rem;
+    min-width: 100px;
+    background-color: #30475e;
+    color: white;
+    font-weight: 700;
+}
+
+.category-btn:hover {
+    background-color: #7182b6;
+    color: white;
+}
+
+.category-btn:focus {
+    background-color: #7182b6;
+    color: white;
 }
 </style>

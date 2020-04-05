@@ -15,9 +15,6 @@
                     <!-- period entries have 8 chars... that's why we want > 8-->
                     <td v-if="exercise.fields.description.length > 8">{{ stripHtml(exercise.fields.description) }}</td>
                     <td v-else>No Description Provided.</td>
-                    <!-- <td v-html="exercise.fields.description"></td> -->
-                    <!-- <td>{{ exercise.fields.muscles }}</td>
-                    <td>{{ exercise.fields.secondary_muscle }}</td> -->
                 </template>
             </tr>
         </tbody>
@@ -50,27 +47,27 @@ export default {
 }
 
 table {
-    border: 2px solid #00008B;
+    border: 2px solid #30475e;
     border-radius: 3px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     margin-left: auto;
     margin-right: auto;
     margin-top: 2rem;
     font-size: 18px;
     th {
-        background-color: #00008B;
-        color: rgba(255, 255, 255, 0.66);
+        background-color: #30475e;
+        color: white;
     }
     td {
-        border-top: 1px solid #00008B;
-        border-bottom: 1px solid #00008B;
+        border-top: 1px solid #30475e;
+        border-bottom: 1px solid #30475e;
     }
     th, td {
         padding: 1rem;
         min-width: 120px;
     }
     td:first-child {
-        border-right: 1px solid #00008B;
+        border-right: 2px solid #30475e;
         margin-right: 2000px;
     }
 }

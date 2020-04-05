@@ -56,8 +56,7 @@ export default {
     data() {
         return {
             username: '',
-            password: '',
-            
+            password: '',   
             error: '',
         };
     },
@@ -78,12 +77,11 @@ export default {
                             type: 'is-success',
                         })
                         localStorage.setItem('token', res.data.token);
-                        this.$router.push('/');
+                        this.$router.push('/dashboard');
                     }
 
                 }, err => {
                     console.log(err.response);
-                    //this.error = err.response.data.error
                     this.$buefy.toast.open({
                             message: 'Invalid login - username/password do not exist!',
                             type: 'is-danger',
@@ -92,13 +90,6 @@ export default {
                 })
         }
     },
-    // mounted() {
-    //     window.addEventListener('keyup', function(event) {
-    //         if (event.keyCode === 13) {
-    //             this.login();
-    //         }
-    //     })
-    // },
 };
 </script>
 
