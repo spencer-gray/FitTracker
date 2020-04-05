@@ -1,11 +1,8 @@
-
-
 <template>
-    <b-navbar class="navbar" v-bind:spaced="true" v-bind:shadow="true" v-bind:fixed-top="true">
+    <b-navbar class="navbar" type="is-dark" v-bind:spaced="true" v-bind:shadow="true" v-bind:fixed-top="true">
         <template slot="brand">
             <b-navbar-item tag="router-link" :to="{ path: '/' }">
                 <p id="navbar-logo">FitTracker</p>
-                <!-- <img src="../assets/fittracker_logo.png"> -->
             </b-navbar-item>
         </template>
         <template slot="start" v-if='getLoginState === true'>
@@ -66,7 +63,6 @@
 </template>
 
 <script>
-
 // Will below need when authentication is setup
 
 // import auth from '../auth'
@@ -106,21 +102,14 @@ export default {
         }
     }
 }
-.navbar {
-    background-color: #30475e;
-}
-
-//add button colours here if nessecary
 
 #navbar-logo {
-    color: #e7b2a5;
     font-size: 25px;
     font-weight: 900;
-    // padding: 0 20px;
 }
 
 .signUpButton{
-    background-color: #ba6b57;
+    background-color: #30475e;
     color:white;
 }
 
@@ -130,7 +119,7 @@ export default {
 }
 
 .loginButton{
-    background-color: #ba6b57;
+    background-color: #30475e;
     color:white;
 }
 
@@ -140,7 +129,7 @@ export default {
 }
 
 .logoutButton{
-    background-color: #ba6b57;
+    background-color: #30475e;
     color:white;
 }
 
@@ -150,7 +139,7 @@ export default {
 }
 
 .profileButton{
-    background-color: #ba6b57;
+    background-color: #30475e;
     color:white;
 }
 
@@ -164,8 +153,6 @@ export default {
 }
 #navbar-item {
     font-size: 18px;
-    color: #e7b2a5;
-    //font-weight: 300;
 }
 
 .dropdown {

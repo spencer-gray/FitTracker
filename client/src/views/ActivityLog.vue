@@ -12,13 +12,15 @@
                 role="button"
                 aria-controls="contentIdForA11y3">
                 <div class="card-header-title">
-                    <div class="date">Date: {{new Date(item.date).toLocaleDateString()}}</div>
+                  <div class="header-info">
+                    <div class="date">{{dateFormat(item.date)}}</div>
                     <div class="total-weight">
                       <b-icon type="is-primary" icon="weight-hanging" size="is-small"/>
                       <p>{{ item.exercises.map(a => a.reps * a.sets * a.weight)
                                         .reduce((a, b) => a + b, 0)}}
                       </p>
                     </div>
+                  </div>
                 </div>
                 <a class="card-header-icon" v-show="props.open">
                     <b-icon type="is-primary" icon='angle-up'>
@@ -77,6 +79,10 @@
 
 <script>
 import axios from 'axios';
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 export default {
   name: 'ActivityLog',
@@ -148,6 +154,10 @@ export default {
       //console.log(workout);
       this.$router.push("/update-workout");
     },
+    dateFormat(d) {
+      var t = new Date(d);
+      return monthNames[t.getMonth()] + ' ' + t.getDate() + ', ' + t.getFullYear();
+    },
     selected() {
         console.log('row has been clicked...');
     }
@@ -194,8 +204,12 @@ export default {
 
 
 .card-header-title {
-  padding: 2rem 2rem;
+  padding: 1rem 2rem;
   color: #30475e;
+}
+
+.header-info {
+  margin: 0 auto;
 }
 
 .card-content { 
@@ -209,7 +223,9 @@ export default {
 }
 
 .total-weight {
+  display: flex;
   min-width: 75px;
+  justify-content: center;
 }
 
 .total-weight span{

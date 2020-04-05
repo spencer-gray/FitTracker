@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <Header title="Fitness Application"/> -->
+    <Header title="Fitness Application"/>
     <Navbar />
     <router-view/>
   </div>
