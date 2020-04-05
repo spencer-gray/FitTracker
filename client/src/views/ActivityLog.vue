@@ -1,5 +1,8 @@
 <template>
   <div class="activity-log">
+    <div class="add-exercise">
+      <b-button class="add-exercise-btn" icon-right="share-square" tag="router-link" :to="{ path: '/add-workout' } ">Add Exercise</b-button>
+    </div>
     <div v-bind:key="item.id" v-for="(item) in paginatedItems">
       <b-collapse class="card" :open="false" animation="slide" aria-id="contentIdForA11y3">
             <div
@@ -30,7 +33,6 @@
             </div>
             <div class="card-content">
                 <div class="content">
-                    <!-- {{ new Date(item.row.date).toLocaleDateString() }} -->
                     <b-table
                       :data="item.exercises"
                       hoverable
@@ -50,16 +52,13 @@
                           </b-table-column>
                           <b-table-column field="weight" label="Weight" centered>
                               {{ props.row.weight }}
-                              <!-- {{ item._id }} -->
                           </b-table-column>
                       </template>
                   </b-table>
                 </div>
             </div>
             <footer class="card-footer">
-              <router-link to="" class="edit-button">
-                <a class="card-footer-item">Edit</a>
-              </router-link>
+                <a class="card-footer-item" @click="updateWorkout(item)">Edit</a>
                 <a class="card-footer-item" @click="deleteWorkout(item._id)">Delete</a>
             </footer>
         </b-collapse>
@@ -77,7 +76,6 @@
 </template>
 
 <script>
-//import AddContact from '@/components/AddContact.vue';
 import axios from 'axios';
 
 export default {
@@ -145,6 +143,11 @@ export default {
           });
         });
     },
+    updateWorkout(workout) {
+      this.$store.commit('setWorkout', workout);
+      //console.log(workout);
+      this.$router.push("/update-workout");
+    },
     selected() {
         console.log('row has been clicked...');
     }
@@ -158,6 +161,23 @@ export default {
     margin: 5rem auto;
 }
 
+.add-exercise {
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+  text-align: center;
+}
+
+.add-exercise-btn {
+    background-color: #30475e;
+    color:white;
+}
+
+.add-exercise-btn:hover {
+    background-color: #7182b6;
+    color: white;
+}
+
 .table tr {
     cursor: pointer;
 }
@@ -168,7 +188,6 @@ export default {
 }
 
 .card-header {
-  // background-color: #30475e;
   margin: 2rem 0;
   border-radius: 20px;
 }

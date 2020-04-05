@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="oberver" v-slot="{ passes }">
-    <div class="addworkout">
+    <div class="updateworkout">
       <div class="date">
         <ValidationProvider rules="required" v-slot="{ errors }">
           <b-field label="Date" :type=" {'is-danger': errors[0]}">
@@ -99,7 +99,7 @@
           <b-button type="is-success" class="btn" icon-right="plus-square" @click="addRow">Add Exercise</b-button>
         </div>
         <div class="submit-buttons">
-          <b-button type="is-dark" class="btn" icon-right="share-square" @click="passes(addWorkout)">Save Workout</b-button>
+          <b-button type="is-dark" class="btn" icon-right="share-square" @click="passes(updateWorkout)">Update Workout</b-button>
           <b-button type="is-danger" class="btn" icon-right="minus-circle" tag="router-link" :to="{ path: '/activity-log' }">Cancel</b-button>        
         </div>
       </div>
@@ -114,16 +114,17 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 // pull exercise data
 export default {
-  name: "AddWorkout",
+  name: "UpdateWorkout",
   components: {
     ValidationObserver,
     ValidationProvider
   },
   data() {
     return {
-      rows: [],
+      rows: this.$store.getters.getWorkout.exercises,
       exerciseData: [],
-      date: new Date()
+      workout: this.$store.getters.getWorkout,
+      date: new Date(this.$store.getters.getWorkout.date)
     };
   },
   created: function() {
@@ -137,8 +138,11 @@ export default {
         .catch(error => console.log(error));
     }
   },
-  computed: mapGetters(["getUsername"]),
+  computed: mapGetters(["getUsername", "getWorkout"]),
   methods: {
+    getWorkoutState() {
+        console.log(this.workout);
+    },
     addRow: function() {
       this.rows.push({
         exercise: "",
@@ -150,26 +154,28 @@ export default {
     removeRow: function(index) {
       this.rows.splice(index, 1);
     },
-    addWorkout() {
-      let workout = {
-        username: this.$store.getters.getUsername,
+    updateWorkout() {
+      let updatedWorkout = {
         exercises: this.rows,
-        date: this.date
+        username: this.$store.getters.getUsername,
+        _id: this.workout._id,
+        date: this.date,
+        _v: 0
       };
-      axios.post("http://localhost:5000/workouts/addworkout", workout).then(
+      axios.post("http://localhost:5000/workouts/updateworkout", updatedWorkout).then(
         res => {
           console.log(res);
           this.error = "";
           this.$router.push("/activity-log");
           this.$buefy.toast.open({
-            message: "Workout created!",
+            message: "Workout updated!",
             type: "is-success"
           });
         },
         err => {
           console.log(err.response);
           this.$buefy.toast.open({
-            message: "Failed to create workout!",
+            message: "Failed to update workout!",
             type: "is-danger"
           });
         }
@@ -180,7 +186,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.addworkout {
+.updateworkout {
   width: 80%;
   margin: 5rem auto;
 }

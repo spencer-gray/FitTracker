@@ -41,7 +41,32 @@ app.post('/addworkout', (req, res, next) => {
     })
 });
 
-// Delte workout
+// Update workout
+app.post('/updateworkout', (req, res) => {
+
+    const newWorkout = {
+        exercises: req.body.exercises,
+        username: req.body.username,
+        _id: new ObjectId(req.body._id),
+        date: req.body.date,
+        _v: req.body._v
+    }
+
+    Workout.updateOne({_id: newWorkout._id}, newWorkout, function(error) {
+        if (error) {
+            return res.status(400).json({
+                title: 'error',
+                error: 'Error deleting new workout'
+            })
+        } else {
+            return res.status(200).json({
+                title: 'Successfully deleted workout'
+            })
+        }
+    });
+})
+
+// Delete workout
 app.post('/deleteworkout', (req, res) => {
 
     const id = new ObjectId(req.body.id);
