@@ -1,59 +1,40 @@
-<template>
-  <!-- if user does not exists, then output this page -->
-  <div v-if="getUsername === ''">
-    <b-carousel class="">
-      <b-carousel-item v-for="(carousel, i) in VisitorCarousels" :key="i">
-        <section :class="`hero is-small`">
-          <div class="wrapper hero-body has-text-centered">
-            <span class="image">
-              <img :src="`${carousel.image}`" />
-            </span>
-            <h1 class="center title" style="color:white;">{{carousel.text}}</h1>
-          </div>
-        </section>
-      </b-carousel-item>
-    </b-carousel>
-    <div class="dash-title">
-      Please
-      <a href="http://localhost:8080/#/register">sign up</a>
-      or
-      <a href="http://localhost:8080/#/login">log in</a>
-      to take advantage of this great tracker!
-    </div>
-  </div>
-  <!-- if user exists, then output this page -->
-  <div v-else-if="getUsername !== ''">
-    <b-carousel>
-      <b-carousel-item v-for="(carousel, i) in UserCarousels" :key="i">
-        <section :class="`hero is-small`">
-          <div class="wrapper hero-body has-text-centered">
-            <span class="image">
-              <img :src="`${carousel.image}`" />
-            </span>
-            <h1 class="center title" style="color:white;">{{carousel.text}}</h1>
-          </div>
-        </section>
-      </b-carousel-item>
-    </b-carousel>
-    <div class="dash-title">Enjoy, {{ getUsername }}!</div>
-    <div class="wrapper dash-title">
-      <div class="box1" v-on:click="dashboard">
-        Analyze Dashboard...
-        <div>Checkout graphs, analytics, ...</div>
+<template class='landing-page'>
+  <div>
+    <div class="v-header container2">
+      <div class="fullscreen-video-wrap">
+        <video ref="videoRef" type="video/mp4" autoplay muted loop="">
+      </video>
       </div>
-      <div class="box2" v-on:click="excercises">
-        Browse Excercises...
-        <div>Choose from all different body parts!</div>
-      </div>
-      <div class="box3" v-on:click="track">
-        Track all your workouts...
-        <div>Take advantage of a huge selection of all our excercises...</div>
-      </div>
-      <div class="box4" v-on:click="saved">
-        View your saved workouts...
-        <div>Never forget what you did the day before!</div>
+      <div class="header-overlay"></div>
+      <div class="header-content text-md-center">
+        <h1>Welcome to FitTracker!</h1>
+        <p>Track your exercises, and analyze your results. Your feature-rich fitness application!</p>
+        <router-link v-if='getLoginState === false' class="btn" to="/register">Register</router-link>
+        <router-link v-if='getLoginState === false' class="btn" to="/login">Sign in</router-link>
+        <router-link v-if='getLoginState === true' class="btn" to="/dashboard">Back to Dashboard</router-link>
       </div>
     </div>
+
+    <section class="section section-1">
+      <div class="advantages">
+        <h2 class="title">Advantages</h2>
+        <div class="advantages-content">
+          <div class="advantage advantage-1">
+            <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814049_960_720.png" alt="advantage-1"/>
+            <p class="description">Create and manage your own personal workout routines. Pick the exercises your interested in and set their respective 
+                reputations, sets, and/or weights. You can also modify and delete any unwanted workouts.</p>
+          </div>
+          <div class="advantage advantage-2">
+            <img src="https://cdn.pixabay.com/photo/2015/08/26/18/20/info-908889_960_720.png" alt="advantage-2"/>
+            <p class="description">Exercises are logged and the major statistics are analyzed to generate real-time diagrams that allow you to track your progress.</p>
+          </div>
+          <div class="advantage advantage-3">
+            <img src="https://cdn.pixabay.com/photo/2017/01/27/14/26/money-2013198_960_720.png" alt="advantage-2"/>
+            <p class="description">Open source, FitTracker will always be completely free to use and available to everyone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -62,157 +43,170 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "LandingPage",
-  data() {
-    return {
-      progress: true,
-      progressType: "is-primary",
-      // need to figure out color scheme of app
-      // can change texts of slide once features are figured out
-      VisitorCarousels: [
-        {
-          text: "Welcome to FitTracker!",
-          image: `https://source.unsplash.com/WvDYdXDzkhs`
-        },
-        {
-          text: "Create your own profile...",
-          image: `https://source.unsplash.com/DBhIAuHyjPM`
-        },
-        {
-          text: "Track your workouts...",
-          image: `https://source.unsplash.com/H6wTktsFxik`
-        },
-        {
-          text: "OTHER FEATURES...",
-          image: `https://source.unsplash.com/zGerGuIC3RA`
-        }
-      ],
-      UserCarousels: [
-        {
-          text: "Welcome to FitTracker!",
-          image: `https://source.unsplash.com/zGerGuIC3RA`
-        },
-        {
-          text: "Check out your dashboard...",
-          image: `https://source.unsplash.com/WvDYdXDzkhs`
-        },
-        {
-          text: "Start tracking your workouts..",
-          image: `https://source.unsplash.com/H6wTktsFxik`
-        },
-        {
-          text: "OTHER FEATURES...",
-          image: `https://source.unsplash.com/DBhIAuHyjPM`
-        }
-      ]
-    };
-  },
-  computed: mapGetters(["getLoginState", "getUsername"]),
-  methods: {
-    dashboard() {
-      this.$router.push("/dashboard");
+  props: {
+    sources: {
+      type: Array,
+      required: true
     },
-    excercises() {
-      this.$router.push("/exercises");
-    },
-    track() {
-      this.$router.push("/add-workout");
-    },
-    saved() {
-      this.$router.push("/activity-log");
+    img: {
+      type: String
     }
+  },
+  
+  data () {
+    return {
+      videoRatio: null
+    }
+  },
+  computed: mapGetters(['getLoginState']),
+  mounted: function() {
+    this.$refs.videoRef.src = require('../assets/coverr-workout-with-dumbbells-1566567205456.mp4');
+    this.$refs.videoRef.play();
   }
-};
+  
+}
 </script>
 
-<style scoped lang="scss">
-.wrapper {
-  height: 500px;
+<style lang="scss">
+
+*{
+  box-sizing: border-box;
+}
+
+// look into overflow issue
+// body{
+//   margin: 0;
+//   font-size: 1rem;
+//   font-weight: normal;
+//   line-height: 1.5;
+//   color: #333;
+//   overflow-x: hidden;
+//   overflow-y: hidden;
+// }
+
+.v-header{
+  height: 100vh;
   width: 100%;
-  overflow: hidden;
-  color: white;
+  display: flex;
+  align-items: center;
+  color: #fff;
 }
 
-.center {
-  //add shadow against light coloured background
-  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.dash-title {
-  padding-top: 0rem;
-  margin: 1rem auto;
-  font-size: 22px;
-  font-weight: 700;
+.container2{
+  max-width: 960px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: auto;
   text-align: center;
 }
 
-.box1 {
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #e7b2a5;
+.fullscreen-video-wrap{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fullscreen-video-wrap video{
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.header-overlay{
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1;
+  background: rgba(52, 72, 92, 0.7);;
+  opacity: 0.85;
+}
+
+.header-content{
+  z-index: 2;
+}
+
+.header-content h1{
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+.header-content p{
+  font-size: 1.5rem;
+  display: block;
+  padding-bottom: 2rem;
+}
+
+.btn{
+  background: #30475e;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border: 0.5px solid white;
+}
+
+.btn:hover {
+  background-color: #7182b6;
   color: white;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
-.box1:hover {
-  margin-left: 0;
-  margin-right: 0;
-  border-radius: 0;
-  background-color: #30475e;
-  cursor: pointer;
+.section {
+  padding: 20px 0;
 }
 
-.box2 {
-  margin-top: 1%;
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #f1935c;
-  color: white;
-  border-radius: 20px;
+.advantages {
+  margin: 2rem;
+  text-align: center;
 }
 
-.box2:hover {
-  margin-left: 0;
-  margin-right: 0;
-  border-radius: 0;
-  background-color: #30475e;
-  cursor: pointer;
+.advantages-content {
+  margin: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.box3 {
-  margin-top: 1%;
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #ba6b57;
-  color: white;
-  border-radius: 20px;
+.advantage {
+  margin: 2rem;
+  max-width: 250px;
+  min-width: 250px;
 }
 
-.box3:hover {
-  margin-left: 0;
-  margin-right: 0;
-  border-radius: 0;
-  background-color: #30475e;
-  cursor: pointer;
+.description {
+  margin: 2rem 0;
 }
 
-.box4 {
-  margin-top: 1%;
-  margin-left: 5%;
-  margin-right: 5%;
-  background-color: #30475e;
-  color: white;
-  border-radius: 20px;
+.section-1 {
+  color: #30475e;
 }
 
-.box4:hover {
-  margin-left: 0;
-  margin-right: 0;
-  border-radius: 0;
-  background-color: #30475e;
-  cursor: pointer;
+.section-1 i {
+  width: 100px;
+  height: 100px;
 }
+
+img {
+  border-radius: 20%;
+  max-width: 15rem;
+  max-height: 15rem;
+}
+
+.section-2{
+  background: #333;
+  color: #fff;
+}
+
+@media(max-width:960px){
+  .container{
+    padding-right:3rem;
+    padding-left:3rem;
+  }
+}
+
 </style>

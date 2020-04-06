@@ -1,20 +1,25 @@
 <template>
   <div id="app">
-    <Header title="Fitness Application"/>
-    <Navbar />
-    <router-view/>
+    <LandingPage v-if="this.$route.path == '/'" :sources="['http://thenewcode.com/assets/videos/polina.mp4']"/>
+    <div v-if="this.$route.path !== '/'">
+      <Header title="Fitness Application"/>
+      <Navbar />
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
+import LandingPage from "@/views/LandingPage.vue";
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Header
+    Header,
+    LandingPage
   }
 }
 </script>
