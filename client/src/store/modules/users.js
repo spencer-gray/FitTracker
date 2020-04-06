@@ -1,7 +1,16 @@
+// import axios from 'axios';
+
 const state = {
     loginState: false,
     username: '',
+    email: '',
 };
+
+// axios.get('http://localhost:5000/users')
+//     .then(function(response) {
+//         // handle success
+//         console.log(response);
+//     })
 
 const getters = {
     getLoginState: (state) => {
@@ -9,6 +18,9 @@ const getters = {
     },
     getUsername: (state) => {
         return state.username;
+    },
+    getEmail: (state) => {
+        return state.email;
     }
 };
 
@@ -20,7 +32,10 @@ const mutations = {
     },
     setUsername: (state, username) => {
         state.username = username;
-    }
+    },
+    setEmail: (state, email) => {
+        state.email = email;
+    },
 };
 
 
