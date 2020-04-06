@@ -33,7 +33,7 @@
             </ValidationProvider>
 
             <div class="submit-buttons">
-                    <b-button type="is-dark" class="btn" expanded @click="passes(login)">
+                    <b-button class="login-btn" expanded @click="passes(login)">
                         Login
                     </b-button>
                 <router-link to="/register"><p>Don't have an account? Sign up</p></router-link>
@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 .error {
     margin: 2rem auto;
@@ -105,8 +105,22 @@ export default {
     text-align: center;
 }
 
-.btn {
-    margin: 0 0.25rem;
+.submit-buttons p {
+    margin: 1rem 0;
+    color: #2D3436;
+    font-weight: 700;
+}
+
+.login-btn {
+    background-color: #30475e;
+    color: white;
+    font-weight: 700;
+}
+
+.login-btn:hover, .login-btn:focus {
+    background-color: #7182b6;
+    color: white;
+    font-weight: 700;
 }
 
 </style>

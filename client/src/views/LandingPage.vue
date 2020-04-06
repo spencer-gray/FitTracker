@@ -16,22 +16,59 @@
     </div>
 
     <section class="section section-1">
-      <div class="advantages">
+      <div class="content-block">
         <h2 class="title">Advantages</h2>
         <div class="advantages-content">
           <div class="advantage advantage-1">
-            <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814049_960_720.png" alt="advantage-1"/>
+            <div class="icon-background">
+              <i class="fas fa-user fa-7x icon-landing"></i>
+            </div>
             <p class="description">Create and manage your own personal workout routines. Pick the exercises your interested in and set their respective 
                 reputations, sets, and/or weights. You can also modify and delete any unwanted workouts.</p>
           </div>
           <div class="advantage advantage-2">
-            <img src="https://cdn.pixabay.com/photo/2015/08/26/18/20/info-908889_960_720.png" alt="advantage-2"/>
+            <div class="icon-background">
+              <i class="fas fa-chart-bar fa-7x icon-landing"></i>
+            </div>
             <p class="description">Exercises are logged and the major statistics are analyzed to generate real-time diagrams that allow you to track your progress.</p>
           </div>
           <div class="advantage advantage-3">
-            <img src="https://cdn.pixabay.com/photo/2017/01/27/14/26/money-2013198_960_720.png" alt="advantage-2"/>
+            <div class="icon-background">
+              <i class="fab fa-osi fa-7x icon-landing"></i>
+            </div>
             <p class="description">Open source, FitTracker will always be completely free to use and available to everyone.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-2">
+      <div class="content-block">
+        <h2 class="title">Features</h2>
+        <div class="advantages-content">
+
+          <div class="feature">
+            <img src="../assets/exercise_list.png" class="feature-img" alt="feature-1"/>
+            <p class="description">Extensive exercise database with hundreds of unique exercises. Specify the area your interested in training and a list of
+                                  relevant exercises will be generated.</p>
+          </div>
+
+          <div class="feature">
+            <img src="../assets/activity_log.png" class="feature-img" alt="feature-2"/>
+            <p class="description">Provides a complete, detailed history of all logged workouts. Create and manage your own personal workout routines.</p>
+          </div>
+
+          <div class="feature">
+            <img src="../assets/data_visual.png" class="feature-img" alt="feature-3"/>
+            <p class="description">Feature rich dashboard analyzing many aspects of your workouts, and how well you've progressed since joining the application</p>
+          </div>
+
+          <div class="feature">
+            <img src="../assets/calendar.png" class="feature-img" alt="feature-3"/>
+            <p class="description">Provides a quick overview of when you trained, and the targeted muscles. A complete history of your logged workouts
+                                  in a clean and easy to read format.</p>
+          </div>
+
         </div>
       </div>
     </section>
@@ -160,7 +197,7 @@ export default {
   padding: 20px 0;
 }
 
-.advantages {
+.content-block {
   margin: 2rem;
   text-align: center;
 }
@@ -178,28 +215,54 @@ export default {
   min-width: 250px;
 }
 
+.feature {
+  margin: 2rem 4rem;
+  max-width: 250px;
+  min-width: 250px;
+}
+
 .description {
   margin: 2rem 0;
 }
 
 .section-1 {
   color: #30475e;
+  // background-color: black;
 }
 
-.section-1 i {
-  width: 100px;
-  height: 100px;
+.icon-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  background: #30475e;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  z-index: -100;
 }
 
-img {
-  border-radius: 20%;
-  max-width: 15rem;
+.icon-landing {
+  z-index: 100;
+  color: white;
+  
+}
+
+.feature-img {
+  border-radius: 50%;
+  max-width: 15;
   max-height: 15rem;
+  border: 5px solid #7182b6;
+  // border-style: ridge;
 }
 
 .section-2{
-  background: #333;
-  color: #fff;
+  background: #30475e;
+  color: white;
+}
+
+.section-2 h2 {
+  color: white;
 }
 
 @media(max-width:960px){

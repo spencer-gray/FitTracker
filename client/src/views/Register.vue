@@ -57,7 +57,7 @@
                 </ValidationProvider>
 
                 <div class="submit-buttons">
-                    <b-button expanded type="is-dark" @click="passes(register)">
+                    <b-button expanded class="register-btn" @click="passes(register)">
                         <span>Register</span>
                     </b-button>
                     <router-link to="/login"><p>Already have an account? Sign in</p></router-link>
@@ -122,7 +122,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 
 .register {
     width: 80%;
@@ -143,6 +143,18 @@ export default {
 .submit-buttons p {
     margin: 1rem 0;
     color: #2D3436;
+    font-weight: 700;
+}
+
+.register-btn {
+    background-color: #30475e;
+    color: white;
+    font-weight: 700;
+}
+
+.register-btn:hover, .register-btn:focus {
+    background-color: #7182b6;
+    color: white;
     font-weight: 700;
 }
 

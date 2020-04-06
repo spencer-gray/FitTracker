@@ -1,7 +1,7 @@
 <template>
   <div class="activity-log">
     <div class="add-exercise">
-      <b-button class="add-exercise-btn" icon-right="share-square" tag="router-link" :to="{ path: '/add-workout' } ">Add Exercise</b-button>
+      <b-button class="add-exercise-btn" expanded size="is-large" icon-right="share-square" tag="router-link" :to="{ path: '/add-workout' } ">Add Exercise</b-button>
     </div>
     <div v-bind:key="item.id" v-for="(item) in paginatedItems">
       <b-collapse class="card" :open="false" animation="slide" aria-id="contentIdForA11y3">
@@ -257,8 +257,8 @@ td {
 }
 
 .card-footer-item:hover {
-  background-color: #d1d1d1;
-  color: #30475e;
+  background-color: #7182b6;
+  color: white;
 }
 
 .edit-button {

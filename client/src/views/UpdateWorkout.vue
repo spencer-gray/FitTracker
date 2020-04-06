@@ -99,8 +99,8 @@
           <b-button type="is-success" class="btn" icon-right="plus-square" @click="addRow">Add Exercise</b-button>
         </div>
         <div class="submit-buttons">
-          <b-button type="is-dark" class="btn" icon-right="share-square" @click="passes(updateWorkout)">Update Workout</b-button>
-          <b-button type="is-danger" class="btn" icon-right="minus-circle" tag="router-link" :to="{ path: '/activity-log' }">Cancel</b-button>        
+          <b-button type="is-dark" class="save-btn" icon-right="share-square" @click="passes(updateWorkout)">Update Workout</b-button>
+          <b-button type="is-danger" class="save-btn" icon-right="minus-circle" tag="router-link" :to="{ path: '/activity-log' }">Cancel</b-button>        
         </div>
       </div>
     </div>
@@ -214,9 +214,14 @@ export default {
   text-align: center;
 }
 
+.save-btn {
+  margin: 2rem 1rem;
+}
+
 .submit-buttons {
-  margin: 2rem auto;
+  margin: 0 auto;
   text-align: center;
   justify-content: space;
 }
+
 </style>
