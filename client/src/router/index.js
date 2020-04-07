@@ -9,6 +9,7 @@ import UpdateWorkout from '../views/UpdateWorkout.vue'
 import ActivityLog from '../views/ActivityLog.vue'
 import LandingPage from '../views/LandingPage.vue'
 import Profile from '../views/Profile.vue'
+import ChatRoom from '../views/ChatRoom.vue'
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,7 @@ const routes = [
     { path: '/update-workout', name: 'UpdateWorkout', component: UpdateWorkout },
     { path: '/activity-log', name: 'ActivityLog', component: ActivityLog },
     { path: '/profile', name: 'Profile', component: Profile },
+    { path: '/chatroom', name: 'ChatRoom', component: ChatRoom },
     { path: '/', name: 'LandingPage', component: LandingPage },
 ]
 
