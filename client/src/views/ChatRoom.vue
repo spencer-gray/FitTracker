@@ -1,10 +1,10 @@
 <template>
-	<div id="chatroom">
-		<div class="header">
+	<div class="chatroom">
+		<div class="chatroom-header">
             Live Chat Room
 			<!-- <p class="online">Online: {{ users.length }}</p> -->
 		</div>
-		<Chat v-bind:messages="messages" v-on:sendMessage="this.sendMessage" />
+		<Chat v-bind:messages="messages" v-bind:username="username" v-on:sendMessage="this.sendMessage" />
 	</div>
 </template>
 
@@ -72,3 +72,21 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+
+.chatroom {
+    width: 50%;
+    margin: 2rem auto;
+    min-width: 350px;
+}
+
+.chatroom-header {
+    margin: 2rem auto;
+    text-align: center;
+    font-size: 22px;
+    color: #30475e;
+    font-weight: 700;
+}
+
+</style>

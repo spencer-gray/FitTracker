@@ -9,9 +9,9 @@
       <div class="header-content text-md-center">
         <h1>Welcome to FitTracker!</h1>
         <p>Track your exercises, and analyze your results. Your feature-rich fitness application!</p>
-        <router-link v-if='getLoginState === false' class="btn" to="/register">Register</router-link>
-        <router-link v-if='getLoginState === false' class="btn" to="/login">Sign in</router-link>
-        <router-link v-if='getLoginState === true' class="btn" to="/dashboard">Back to Dashboard</router-link>
+        <router-link v-if='getLoginState === false' class="landing-button" to="/register">Register</router-link>
+        <router-link v-if='getLoginState === false' class="landing-button" to="/login">Sign in</router-link>
+        <router-link v-if='getLoginState === true' class="landing-button" to="/dashboard">Back to Dashboard</router-link>
       </div>
     </div>
 
@@ -164,6 +164,7 @@ export default {
 
 .header-content{
   z-index: 2;
+  margin: 0 auto;
 }
 
 .header-content h1{
@@ -177,7 +178,8 @@ export default {
   padding-bottom: 2rem;
 }
 
-.btn{
+.landing-button{
+  margin: 0 1rem;
   background: #30475e;
   color: #ffffff;
   border-radius: 10px;
@@ -187,7 +189,7 @@ export default {
   border: 0.5px solid white;
 }
 
-.btn:hover {
+.landing-button:hover {
   background-color: #7182b6;
   color: white;
   border-radius: 10px;
