@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 const state = {
     loginState: false,
@@ -6,11 +6,12 @@ const state = {
     email: '',
 };
 
-// axios.get('http://localhost:5000/users')
-//     .then(function(response) {
-//         // handle success
-//         console.log(response);
-//     })
+// need to figure out how to access users (what is token?)
+axios.get('http://localhost:5000/users')
+    .then(function(response) {
+        // handle success
+        console.log(response);
+    })
 
 const getters = {
     getLoginState: (state) => {

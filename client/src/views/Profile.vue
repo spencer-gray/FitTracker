@@ -6,7 +6,7 @@
     </div>
     <div class="right">
       <div class="info">
-        <h2>Personal info</h2>
+        <h3>Personal info</h3>
         <h2>Contact Info</h2>
         <div class="info_data">
           <div class="data">
@@ -14,10 +14,17 @@
             <p>{{getEmail}}</p>
             <section>
               <button 
-                class="button is-primary is-medium"
+                class="btn is-primary is-medium"
                 @click="emailModal()">
               Change email...
               </button>
+              <b-modal :active.sync="isComponentModalActive"
+                 has-modal-card
+                 trap-focus
+                 aria-role="dialog"
+                 aria-modal>
+            <modal-form v-bind="formProps"></modal-form>
+        </b-modal>
             </section>
           </div>
         </div>
@@ -30,10 +37,17 @@
             <p>{{getUsername}}</p> 
             <section>
               <button 
-                class="button is-primary is-medium"
+                class="btn is-primary is-medium"
                 @click="userModal()">
-              Change user...
+              Change username...
               </button>
+              <b-modal :active.sync="isComponentModalActive"
+                 has-modal-card
+                 trap-focus
+                 aria-role="dialog"
+                 aria-modal>
+            <modal-form v-bind="formProps"></modal-form>
+        </b-modal>
             </section>           
           </div>
           <div class="data">
@@ -41,10 +55,17 @@
             <p>*********</p>
             <section>
               <button 
-                class="button is-primary is-medium"
+                class="btn is-primary is-medium"
                 @click="passwordModal()">
               Change password...
               </button>
+              <b-modal :active.sync="isComponentModalActive"
+                 has-modal-card
+                 trap-focus
+                 aria-role="dialog"
+                 aria-modal>
+            <modal-form v-bind="formProps"></modal-form>
+        </b-modal>
             </section>
           </div>
         </div>
@@ -67,22 +88,23 @@ const emailForm = {
                 <section class="modal-card-body">
                     <b-field label="New Email">
                         <b-input
-                            type="email"
-                            placeholder="email@web.com"
-                            required>
+                                type="email"
+                                :value="email"
+                                placeholder="email@web.com"
+                                required>
                         </b-input>
                     </b-field>
                 </section>
                 <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Change</button>
+                    <button class="btn" type="button" @click="$parent.close()">Close</button>
+                    <button class="btn is-primary">Change</button>
                 </footer>
             </div>
         `
 };
 
 const userForm = {
-        props: ['email', 'password'],
+        props: ['email', 'password', 'changeUsername'],
         template: `
             <div class="modal-card" style="width: auto">
                 <header class="modal-card-head">
@@ -98,8 +120,8 @@ const userForm = {
                     </b-field>
                 </section>
                 <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Change</button>
+                    <button class="btn" type="button" @click="$parent.close()">Close</button>
+                    <button class="btn is-primary" >Change</button>
                 </footer>
             </div>
         `
@@ -116,6 +138,7 @@ const passwordForm = {
                     <b-field label="New Password">
                         <b-input
                             type="password"
+                            password-reveal
                             placeholder="*******"
                             required>
                         </b-input>
@@ -123,14 +146,15 @@ const passwordForm = {
                     <b-field label="Confirm Password">
                         <b-input
                             type="password"
+                            password-reveal
                             placeholder="*******"
                             required>
                         </b-input>
                     </b-field>
                 </section>
                 <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Change</button>
+                    <button class="btn" type="button" @click="$parent.close()">Close</button>
+                    <button class="btn is-primary is-small">Change</button>
                 </footer>
             </div>
         `
@@ -143,7 +167,7 @@ export default {
       isComponentModalActive: false,
       formProps: {
         email: "test@site.com",
-        password: "testing"
+        password: "testing",
       }
     };
   },
@@ -183,6 +207,15 @@ export default {
                     trapFocus: true
                 })
             },
+    changeUsername() {
+      console.log("change username");
+    },
+    changePassword() {
+      console.log("change password");
+    },
+    changeEmail() {
+      console.log("change email");
+    },
     ...mapMutations(["setUsername"])
   },
   props: ["profileId"]
@@ -192,6 +225,37 @@ export default {
 <style scoped lang="scss">
 body {
   background-color: #f3f3f3;
+}
+
+.btn{
+  background: #30475e;
+  color: #ffffff;
+  width: 100%;
+  height: 80%;
+  // border-radius: 10px;
+  font-size: 1rem;
+  // padding: 1rem 2rem;
+  // text-decoration: cent;
+  border: 0.5px solid white;
+}
+
+.btn:hover {
+  background-color: #7182b6;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;  
+}
+
+.modalbutton {
+  background: #30475e;
+  color: #ffffff;
+  width: 100%;
+  height: 80%;
+  border-radius: 10px;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  text-decoration: cent;
+  border: 0.5px solid white;
 }
 
 .wrapper {
@@ -206,7 +270,7 @@ body {
 
 .wrapper .left {
   width: 20%;
-  background: linear-gradient(to right, #e7b2a5, #f1935c);
+  background: linear-gradient(to right, #30475e, #192a3b);
   padding: 30px 25px;
   border-radius: 5px;
   text-align: center;
@@ -237,6 +301,17 @@ body {
 
 .wrapper .right .info h2,
 .wrapper .right .user h2 {
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #353c4e;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.wrapper .right .info h3,
+.wrapper .right .user h3 {
+  font-size: 1.5rem;
   margin-bottom: 15px;
   padding-bottom: 5px;
   border-bottom: 1px solid #e0e0e0;
