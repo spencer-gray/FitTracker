@@ -41,7 +41,7 @@ io.on("connection", socket => {
     });
 
     socket.on('newuser', username => {
-        console.log(`${username} has arrived at the chatroom.`);
+        //console.log(`${username} has arrived at the chatroom.`);
         socket.username = username;
         
         users.push(socket);
@@ -67,7 +67,7 @@ io.on("connection", socket => {
     });
     
     socket.on("disconnect", () => {
-        console.log(`${socket.username} has left the chatroom.`);
+        //console.log(`${socket.username} has left the chatroom.`);
         io.emit("userLeft", socket.username);
         users.splice(users.indexOf(socket), 1);
     });

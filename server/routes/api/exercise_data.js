@@ -20,7 +20,8 @@ router.get('/', async (req, res) => {
 router.get('/images/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const response = await fetch(`http://wger.de/api/v2/exerciseimage/${id}/thumbnails/?format=json`);
+        const response = await fetch(`http://wger.de/api/v2/exerciseimage/?exercise=${id}&format=json`)
+        //const response = await fetch(`http://wger.de/api/v2/exerciseimage/${id}/thumbnails/?format=json`);
         const data = await response.json();
         res.json(data);
 

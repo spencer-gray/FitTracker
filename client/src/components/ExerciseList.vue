@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-bind:key="exercise.id" v-for="exercise in exercises">
+            <tr v-bind:key="exercise.id" v-for="exercise in exercises" @click="goToDetails(exercise)">
                 <template v-if="exercise.fields.category === category">
                     <!-- could have a exercise image field too-->
                     <td>{{ exercise.fields.name }}</td>
@@ -30,6 +30,10 @@ export default {
         category: Number,
     },
     methods: {
+        goToDetails(exercise) {
+            this.$store.commit('setExercise', exercise);
+            this.$router.push("/exercise/" + exercise.name);
+        },
         // cleans up html tags from js string while retaining text inside
         stripHtml: function(html){
             var tmp = document.createElement("DIV");
