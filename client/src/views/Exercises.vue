@@ -4,15 +4,16 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Muscular_system.svg/1200px-Muscular_system.svg.png" alt="Muscular system.svg" width="150px">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Muscular_system-back.svg/1200px-Muscular_system-back.svg.png" alt="Muscular system-back.svg" width="150px">
     </div>
-    <ExerciseListButtons @clickedCat="updateClickedCat"/>
-    <ExerciseList :exercises="exercises" :category="category"/>
+    <div class="content">
+      <ExerciseListButtons @clickedCat="updateClickedCat"/>
+      <ExerciseList :exercises="exercises" :category="category"/>
+    </div>
   </div>
 </template>
 
 <script>
 import ExerciseList from '@/components/ExerciseList.vue';
 import ExerciseListButtons from '@/components/ExerciseListButtons.vue';
-//import AddContact from '@/components/AddContact.vue';
 import axios from 'axios';
 
 export default {
@@ -53,17 +54,20 @@ export default {
           } else if (variable==="Shoulders") {
               this.category = 13;
           }
-          //this.category = categoryToID(variable);
-          //console.log(this.category);
       }
   },
 }
 </script>
 
 <style scoped lang="scss">
+.exercises {
+  width: 80%;
+  margin: 2rem auto;
+}
+
 .images {
     width: 50%;
-    margin: 2em auto;
+    margin: 0.5em auto;
     text-align: center;
 }
 </style>

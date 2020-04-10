@@ -41,7 +41,8 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     margin: 3em auto;
-    width: 50%;
+    width: 60%;
+    min-width: 250px;
     text-align: center;
 }
 
@@ -51,6 +52,7 @@ export default {
     background-color: #30475e;
     color: white;
     font-weight: 700;
+    box-shadow: 1px 5px 5px 1px darkgray;
 }
 
 .category-btn:hover {

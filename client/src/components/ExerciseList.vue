@@ -1,24 +1,13 @@
 <template>
 <div id="exerciseList">
-    <table v-if="category != null">
-        <thead>
-            <tr>
-                <th>Exercise</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-bind:key="exercise.id" v-for="exercise in exercises" @click="goToDetails(exercise)">
-                <template v-if="exercise.fields.category === category">
-                    <!-- could have a exercise image field too-->
-                    <td>{{ exercise.fields.name }}</td>
-                    <!-- period entries have 8 chars... that's why we want > 8-->
-                    <td v-if="exercise.fields.description.length > 8">{{ stripHtml(exercise.fields.description) }}</td>
-                    <td v-else>No Description Provided.</td>
-                </template>
-            </tr>
-        </tbody>
-    </table>
+    <div class="content" v-if='category != null'>
+        <div v-bind:key="exercise.id" v-for="exercise in exercises" @click="goToDetails(exercise)">
+            <div class="item" v-if="exercise.fields.category === category">
+                <!-- could have a exercise image field too-->
+                <p>{{ exercise.fields.name }}</p>
+            </div>
+        </div>
+    </div>
 </div>    
 </template>
 
@@ -32,7 +21,7 @@ export default {
     methods: {
         goToDetails(exercise) {
             this.$store.commit('setExercise', exercise);
-            this.$router.push("/exercise/" + exercise.name);
+            this.$router.push("/exercise/" + exercise.fields.name);
         },
         // cleans up html tags from js string while retaining text inside
         stripHtml: function(html){
@@ -48,31 +37,29 @@ export default {
 #exerciseList {
     width: 80%;
     margin: 0 auto;
-}
 
-table {
-    border: 2px solid #30475e;
-    border-radius: 3px;
-    background-color: #ffffff;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
-    font-size: 18px;
-    th {
-        background-color: #30475e;
-        color: white;
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
     }
-    td {
-        border-top: 1px solid #30475e;
-        border-bottom: 1px solid #30475e;
-    }
-    th, td {
+
+    .item {
+        margin: 1rem;
         padding: 1rem;
-        min-width: 120px;
+        border-radius: 2px;
+        background-color: #F9F9F9;
+        box-shadow: 1px 5px 5px 1px darkgray;
+        text-align: center;
+        color: #30475e;
+        min-width: 180px;
     }
-    td:first-child {
-        border-right: 2px solid #30475e;
-        margin-right: 2000px;
+
+    .item:hover {
+        cursor: pointer;
+        background-color: #7182b6;
+        color: white;
     }
 }
 

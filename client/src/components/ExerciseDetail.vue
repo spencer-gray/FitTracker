@@ -2,10 +2,9 @@
     <div class='exercise-detail'>
         <div class='header'>
             {{this.exercise.fields.name}}
-            <!-- {{this.exercise.pk}} -->
         </div>
-        <div v-if="image != ''"  class='exercise-image'>
-            <img :src="this.image" alt="exercise image">
+        <div v-if="images.count != 0"  class='exercise-image'>
+            <img v-bind:key="image.id" v-for="image in images" :src="image.image" alt="exercise image">
         </div>
         <div class='content'>
             <div class='row'>
@@ -31,10 +30,10 @@
                 <div class='right'>
                     <div class='muscles'>
                         <div class='primary'>
-                            Primary: {{this.exercise.fields.muscles}}
+                            Primary: {{stringifyMuscles(this.exercise.fields.muscles)}}
                         </div>
                         <div class='secondary'>
-                            Secondary: {{this.exercise.fields.secondary_muscle}}
+                            Secondary: {{stringifyMuscles(this.exercise.fields.secondary_muscle)}}
                         </div>
                     </div>
                 </div>
@@ -46,10 +45,10 @@
 <script>
 import axios from 'axios';
 
-// const muscleList = ['Biceps Brachii', 'Anterior Deltoid', 'Serratus Anterior', 'Pectoralis Major',
-//                     'Triceps Brachii', 'Rectus Abdominis', 'Gastrocnemius', 'Gluteus Maximus',
-//                     'Trapezius', 'Quadriceps Femoris', 'Biceps Femoris', 'Latissimus Dorsi', 'Brachialis',
-//                     'Obliquus Externus Abdominis', 'Soleus'];
+const muscleList = ['Biceps Brachii', 'Anterior Deltoid', 'Serratus Anterior', 'Pectoralis Major',
+                    'Triceps Brachii', 'Rectus Abdominis', 'Gastrocnemius', 'Gluteus Maximus',
+                    'Trapezius', 'Quadriceps Femoris', 'Biceps Femoris', 'Latissimus Dorsi', 'Brachialis',
+                    'Obliquus Externus Abdominis', 'Soleus'];
 
 export default {
     name: 'ExerciseDetail',
@@ -57,7 +56,7 @@ export default {
         return {
             id: this.$route.params.id,  // store route filter
             exercise: {},
-            image: '',
+            images: [],
             imageState: false,
         }
     },
@@ -69,19 +68,20 @@ export default {
             // get exercise data from vuex state
             this.exercise = this.$store.getters.getExercise
             axios.get('http://localhost:5000/api/exercise_data/images/' + this.exercise.pk)
-                .then((response) => this.image = response.data.results[0].image)
+                .then((response) => this.images = response.data.results)
                 .catch((error) => console.log(error));
         }
     },
     methods: {
+        // strip html from input
         stripHtml: function(html){
             var tmp = document.createElement("DIV");
             tmp.innerHTML = html;
             return tmp.textContent || tmp.innerText || "";
         },
+        // Convert category to string counterpart
         stringifyCategory(variable) {
             // only one category so this is fine
-            //console.log(this.image);
             if (variable===10) {
                 return "Abs"
             } else if (variable===8) {
@@ -98,20 +98,18 @@ export default {
                 return "Shoulders"
             }
       },
+      // Convert muscle array to formatted string
       stringifyMuscles(muscles) {
           var musclesString = []
           if (muscles.length===0) {
-              return "No category recorded"
+              return "No muscle recorded"
           }
           else {
               for (var i=0; i<muscles.length;i++) {
-                if (muscles[i] === "5") {
-                    musclesString.push("Test");
-                } else if (muscles[i] === "6") {
-                    musclesString.push("Test");
-                }
+                  musclesString.push(muscleList[parseInt(muscles[i])-1])
             }
           }
+          return musclesString.join(' - ');
       }
     }
 }
@@ -121,9 +119,14 @@ export default {
 
 .exercise-detail {
     width: 50%;
+    min-width: 340px;
 	margin: 2rem auto;
     text-align: center;
     color: #30475e;
+    padding: 2rem;
+    border-radius: 10px;
+	background-color: #F9F9F9;
+	box-shadow: 1px 5px 5px 1px darkgray;
 
     .header {
         font-size: 24px;
@@ -137,8 +140,8 @@ export default {
         justify-content: center;
         
         img {
-            max-width: 250px;
-            max-height: 250px;
+            max-width: 200px;
+            max-height: 200px;
         }
     }
 
