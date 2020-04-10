@@ -118,7 +118,8 @@ export default {
 			font-size: 14px;
 		}
 		button:hover {
-			background-color: #7182b6
+			background-color: #7182b6;
+			cursor: pointer;
 		}
 		button:focus {
 			outline-width: 0;

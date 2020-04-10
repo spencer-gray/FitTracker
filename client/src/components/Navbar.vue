@@ -22,6 +22,14 @@
                     <p id="navbar-item">View Activity Log</p>
                 </b-navbar-item>
             </b-navbar-dropdown>
+            <b-navbar-dropdown class="dropdown" label="Nutrition">
+                <b-navbar-item tag="router-link" :to="{ path: '/food-database' }">
+                    <p id="navbar-item">Food Database</p>
+                </b-navbar-item>
+                <b-navbar-item tag="router-link" :to="{ path: '/food-diary' }">
+                    <p id="navbar-item">Food Diary</p>
+                </b-navbar-item>
+            </b-navbar-dropdown>
             <b-navbar-item tag="router-link" :to="{ path: '/chatroom' }">
                 <p id="navbar-item">Live Chat</p>
             </b-navbar-item>
