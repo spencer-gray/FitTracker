@@ -87,8 +87,11 @@ app.use('/chat', require('./routes/chatroom'));
 // Exercise Data / Images
 app.use('/api/exercise_data', require('./routes/api/exercise_data'));
 
-// User Workouts (not needed atm)
+// User Workouts
 app.use('/api/workouts', require('./routes/api/workouts'));
+
+// User Food Diaries
+app.use('/food-diaries', require('./routes/food-diaries'));
 
 const port = process.env.PORT || 5000;
 

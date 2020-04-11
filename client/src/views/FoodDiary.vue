@@ -1,8 +1,9 @@
 <template>
     <div class="food-diary">
-        <!-- <h2>Food Diary</h2> -->
         <h2>{{dateFormat(date)}}</h2>
         <b-field>
+            <b-button class="prev-btn" icon-left="angle-left" @click="prevDay"/>
+
             <div class="datepicker">
                 <b-datepicker
                     ref="datepicker"
@@ -14,6 +15,8 @@
                 class="calendar-btn"
                 @click="$refs.datepicker.toggle()"
                 icon-left="calendar"/>
+
+            <b-button class="next-btn" icon-left="angle-right" @click="nextDay"/>
         </b-field>
         <div class="breakfast meal">
             <div class="meal-header">Breakfast</div>
@@ -67,7 +70,7 @@
             <b-button class="add-button" @click="openDinnerModal" size="is-small" icon-left="plus" :rounded="true"/>
         </div>
         <b-progress type="is-info" :value="total_calories" :max="2400" size="is-large" show-value>
-            {{ total_calories }} / 2400
+            {{ Math.round(total_calories*100)/100 }} / 2400
         </b-progress>
         <div class="diary-footer">
             <b-button class="save-btn" @click="saveDiary" icon-left="share-square">Save Food Diary</b-button>
@@ -78,6 +81,7 @@
 <script>
 import axios from 'axios';
 import DiaryForm from '@/components/DiaryForm.vue';
+//import { mapGetters } from 'vuex';
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -93,8 +97,8 @@ export default {
             bfast_rows: [],
             lunch_rows: [],
             dinner_rows: [],
-            curr_diary: [],
             total_calories: 0,
+            page_data: [],
         }
     },
     created() {
@@ -104,12 +108,23 @@ export default {
         } else {
             // get user data from vuex state
             this.username = this.$store.getters.getUsername;
+            
+            this.date.setHours(0,0,0,0) // need a constant time of day for backend comparison
             // get diary data for current user
-            axios.get('http://localhost:5000/food-diary/' + this.username)
-                .then((response) => this.diary_data = response)
+            axios.get('http://localhost:5000/food-diaries?username=' + this.username)
+                .then((response) => {
+                    this.diary_data = response.data
+                    this.loadCurrentDateData();
+                })
                 .catch((error) => console.log(error));
-
-            //console.log(this.diary_data);
+        }
+    },
+    watch: {
+        // watch for change on date object and update page data dynamically
+        date: function (date) {
+            if (date) {
+                this.loadCurrentDateData();
+            }
         }
     },
     methods: {
@@ -201,19 +216,92 @@ export default {
         },
         // Store diary data in database
         saveDiary() {
-            this.curr_diary = {
-                date: this.date,
-                breakfast: this.bfast_rows,
-                lunch: this.lunch_rows,
-                dinner: this.dinner_rows
+            let curr_diary = {
+                username: this.username,
+                date: this.date.setHours(0,0,0,0),  // need to set a constant time for backend comparison
+                meals: [{
+                    breakfast: this.bfast_rows,
+                    lunch: this.lunch_rows,
+                    dinner: this.dinner_rows
+                }]
             }
-            console.log(this.curr_diary);
+
+            // post request handles both update/addition of new diary entries
+            axios.post("http://localhost:5000/food-diaries/addOrUpdateDiary", curr_diary).then(
+                res => {
+                    console.log(res);
+                    this.error = "";
+                    this.$buefy.toast.open({
+                        message: "Food Diary Saved!",
+                        type: "is-success"
+                    });
+                    // get request to retrieve new diary log on successfull post (dynamic page update without reload)
+                    axios.get('http://localhost:5000/food-diaries?username=' + this.username)
+                        .then((response) => {
+                            this.diary_data = response.data
+                            this.loadCurrentDateData();
+                        })
+                        .catch((error) => console.log(error));
+                        },
+                err => {
+                    console.log(err.response);
+                    this.$buefy.toast.open({
+                        message: "Failed to save",
+                        type: "is-danger"
+                    });
+                }
+            );
         },
         // Format Date to long format
         dateFormat(d) {
             var t = new Date(d);
             return monthNames[t.getMonth()] + ' ' + t.getDate() + ', ' + t.getFullYear();
         },
+        checkCurrentDate() {
+            let diary_list = this.diary_data;
+            let formatted_date = this.date.toISOString();
+
+            // check for any records on selected data (and current user)
+            let daily_record = diary_list.filter(e => e.date === formatted_date);
+            if (daily_record.length > 0) {
+                //console.log(daily_record);
+                return daily_record;
+            }
+            else {
+                //console.log('No entries...');
+                return [];
+            }
+        },
+        loadCurrentDateData() {
+            let daily_record = this.checkCurrentDate();
+
+            // if user has existing record, pre-fill form fields
+            if (daily_record.length != 0) {
+                this.page_data = daily_record[0].meals[0];      // just using this for testing atm
+                this.bfast_rows = daily_record[0].meals[0].breakfast;
+                this.lunch_rows = daily_record[0].meals[0].lunch;
+                this.dinner_rows = daily_record[0].meals[0].dinner;
+                this.total_calories = this.bfast_rows.map(a => a.calories).reduce((a, b) => a + b, 0) +
+                                      this.lunch_rows.map(a => a.calories).reduce((a, b) => a + b, 0) +
+                                      this.dinner_rows.map(a => a.calories).reduce((a, b) => a + b, 0);
+            } else {
+                // No record, clear the pages form fields
+                this.page_data = [];
+                this.bfast_rows = [];
+                this.lunch_rows = [];
+                this.dinner_rows = [];
+                this.total_calories = 0;
+            }
+            //console.log(this.page_data);
+        },
+        prevDay() {
+            let d = new Date(this.date.getTime() - (1*24*60*60*1000));
+            this.date = d;
+        },
+        nextDay() {
+            let d = new Date(this.date.getTime() + (1*24*60*60*1000));
+            this.date = d;
+        }
     }
     
 }
@@ -249,12 +337,16 @@ export default {
     td {
         padding: 10px;
     }
+    .next-btn, .prev-btn {
+        background-color: #30475e;
+        color: white;
+    }
     .calendar-btn, .save-btn {
         margin: 1rem auto;
         background-color: #30475e;
         color: white;
     }
-    .calendar-btn:hover, .calendar-btn:focus, .save-btn:hover, .save-btn:focus {
+    .calendar-btn:hover, .calendar-btn:focus, .save-btn:hover, .save-btn:focus, .next-btn:hover, .prev-btn:hover {
         background-color: #7182b6;
         color: white;
     }
