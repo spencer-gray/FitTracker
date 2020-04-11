@@ -2,7 +2,7 @@
     <div class="food-db">
         <h2>Food Database</h2>
         <div class="food-search">
-            <b-field @keyup.enter.native="submitSearch">
+            <b-field @keyup.enter.native="submitSearch" grouped>
                 <b-input type="text" v-model="searchQuery" @input="clearList"></b-input>
                 <p class="control">
                     <b-button class="button" @click="submitSearch">Search</b-button>
@@ -72,6 +72,7 @@ export default {
     button {
         background-color: #30475e;
         color: white;
+        box-shadow: 1px 5px 5px 1px darkgray;
     }
     button:hover, button:focus {
         background-color: #7182b6;

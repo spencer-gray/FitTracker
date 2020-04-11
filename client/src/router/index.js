@@ -12,6 +12,7 @@ import LandingPage from '../views/LandingPage.vue'
 import Profile from '../views/Profile.vue'
 import ChatRoom from '../views/ChatRoom.vue'
 import FoodDatabase from '../views/FoodDatabase.vue'
+import FoodDiary from '../views/FoodDiary.vue'
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,8 @@ const routes = [
     { path: '/profile', name: 'Profile', component: Profile },
     { path: '/chatroom', name: 'ChatRoom', component: ChatRoom },
     { path: '/food-database', name: 'FoodDatabase', component: FoodDatabase },
+    { path: '/food-diary', name: 'FoodDiary', component: FoodDiary },
+
 ]
 
 const router = new VueRouter({
