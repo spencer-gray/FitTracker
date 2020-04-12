@@ -28,6 +28,11 @@
                         <td>
                             <p>{{ row.calories }} cal</p>
                         </td>
+                        <td>    
+                            <select @change="updateRowQuantity($event, row)" selected="selected" :value="row.quantity">
+                                <option v-bind:key="n.id" v-for="n in 100" :value="n">{{ n }}</option>
+                            </select>  
+                        </td>
                         <td>
                         <b-button @click="removeBFastRow(index)" :rounded="true" type="is-danger" size="is-small" icon-left="trash"/>
                         </td>
@@ -44,6 +49,11 @@
                         </td>
                         <td>
                             <p>{{ row.calories }} cal</p>
+                        </td>
+                        <td>
+                            <select @change="updateRowQuantity($event, row)" selected="selected" :value="row.quantity">
+                                <option v-bind:key="n.id" v-for="n in 100" :value="n">{{ n }}</option>
+                            </select>  
                         </td>
                         <td>
                         <b-button @click="removeLunchRow(index)" :rounded="true" type="is-danger" size="is-small" icon-left="trash"/>
@@ -63,7 +73,12 @@
                             <p>{{ row.calories }} cal</p>
                         </td>
                         <td>
-                        <b-button @click="removeDinnerRow(index)" :rounded="true" type="is-danger" size="is-small" icon-left="trash"/>
+                            <select @change="updateRowQuantity($event, row)" selected="selected" :value="row.quantity">
+                                <option v-bind:key="n.id" v-for="n in 100" :value="n">{{ n }}</option>
+                            </select>  
+                        </td>
+                        <td>
+                            <b-button @click="removeDinnerRow(index)" :rounded="true" type="is-danger" size="is-small" icon-left="trash"/>
                         </td>
                     </tr>
                 </tbody>
@@ -81,7 +96,6 @@
 <script>
 import axios from 'axios';
 import DiaryForm from '@/components/DiaryForm.vue';
-//import { mapGetters } from 'vuex';
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -99,6 +113,7 @@ export default {
             dinner_rows: [],
             total_calories: 0,
             page_data: [],
+            qty_selection: 1
         }
     },
     created() {
@@ -185,33 +200,36 @@ export default {
             this.bfast_rows.push({
                 food_name: food.item_name,
                 calories: food.nutrient_value,
+                quantity: 1
             });
         },
         addLunchRow(food) {
             this.total_calories += food.nutrient_value;
             this.lunch_rows.push({
                 food_name: food.item_name,
-                calories: food.nutrient_value
+                calories: food.nutrient_value,
+                quantity: 1
             })
         },
         addDinnerRow(food) {
             this.total_calories += food.nutrient_value;
             this.dinner_rows.push({
                 food_name: food.item_name,
-                calories: food.nutrient_value
+                calories: food.nutrient_value,
+                quantity: 1
             })
         },
         // Below are methods to remove form data from specified
         removeBFastRow: function(index) {
-            this.total_calories -= this.bfast_rows[index].calories;
+            this.total_calories -= (this.bfast_rows[index].calories * this.bfast_rows[index].quantity);
             this.bfast_rows.splice(index, 1);
         },
         removeLunchRow: function(index) {
-            this.total_calories -= this.lunch_rows[index].calories;
+            this.total_calories -= (this.lunch_rows[index].calories * this.lunch_rows[index].quantity);
             this.lunch_rows.splice(index, 1);
         },
         removeDinnerRow: function(index) {
-            this.total_calories -= this.dinner_rows[index].calories;
+            this.total_calories -= (this.dinner_rows[index].calories * this.dinner_rows[index].quantity);
             this.dinner_rows.splice(index, 1);
         },
         // Store diary data in database
@@ -281,9 +299,9 @@ export default {
                 this.bfast_rows = daily_record[0].meals[0].breakfast;
                 this.lunch_rows = daily_record[0].meals[0].lunch;
                 this.dinner_rows = daily_record[0].meals[0].dinner;
-                this.total_calories = this.bfast_rows.map(a => a.calories).reduce((a, b) => a + b, 0) +
-                                      this.lunch_rows.map(a => a.calories).reduce((a, b) => a + b, 0) +
-                                      this.dinner_rows.map(a => a.calories).reduce((a, b) => a + b, 0);
+                this.total_calories = this.bfast_rows.map(a => a.calories*a.quantity).reduce((a, b) => a + b, 0) +
+                                      this.lunch_rows.map(a => a.calories*a.quantity).reduce((a, b) => a + b, 0) +
+                                      this.dinner_rows.map(a => a.calories*a.quantity).reduce((a, b) => a + b, 0);
             } else {
                 // No record, clear the pages form fields
                 this.page_data = [];
@@ -292,15 +310,28 @@ export default {
                 this.dinner_rows = [];
                 this.total_calories = 0;
             }
-            //console.log(this.page_data);
         },
+        // go to previous day
         prevDay() {
             let d = new Date(this.date.getTime() - (1*24*60*60*1000));
             this.date = d;
         },
+        // go to next day
         nextDay() {
             let d = new Date(this.date.getTime() + (1*24*60*60*1000));
             this.date = d;
+        },
+        updateRowQuantity(event, row) {
+            
+            // subtract existing amount
+            if (row.quantity) {
+                this.total_calories -= row.calories*row.quantity;
+            }
+
+            row.quantity = event.target.value;
+
+            // add new amount to total
+            this.total_calories += (row.calories*row.quantity);
         }
     }
     

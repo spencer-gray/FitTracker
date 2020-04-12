@@ -11,10 +11,10 @@
                 :to="{ path: '/dashboard' }">
                 <p id="navbar-item">Dashboard</p>
             </b-navbar-item>
-            <b-navbar-item tag="router-link" :to="{ path: '/exercises' }">
-                <p id="navbar-item">Exercises</p>
-            </b-navbar-item>
-            <b-navbar-dropdown class="dropdown" label="Workouts">
+            <b-navbar-dropdown class="dropdown" label="Exercises">
+                <b-navbar-item tag="router-link" :to="{ path: '/exercises' }">
+                    <p id="navbar-item">Exercise Database</p>
+                </b-navbar-item>
                 <b-navbar-item tag="router-link" :to="{ path: '/add-workout' }">
                     <p id="navbar-item">Create New Workout</p>
                 </b-navbar-item>
