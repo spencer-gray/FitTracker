@@ -29,7 +29,6 @@ app.post('/register', (req, res, next) => {
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, 10)
     })
-    console.log(newUser);
     newUser.save(err => {
         if (err) {
             return res.status(400).json({

@@ -8,6 +8,8 @@
                 <b-datepicker
                     ref="datepicker"
                     v-model="date"
+                    :events="calendar_events"
+                    indicators="bars"
                     placeholder="Select a date">
                 </b-datepicker>
             </div>
@@ -18,6 +20,9 @@
 
             <b-button class="next-btn" icon-left="angle-right" @click="nextDay"/>
         </b-field>
+        <b-progress type="is-info" :value="total_calories" :max="2400" size="is-large" show-value>
+            {{ Math.round(total_calories*100)/100 }} / 2400
+        </b-progress>
         <div class="breakfast meal">
             <div class="meal-header">Breakfast</div>
                 <tbody>
@@ -84,9 +89,6 @@
                 </tbody>
             <b-button class="add-button" @click="openDinnerModal" size="is-small" icon-left="plus" :rounded="true"/>
         </div>
-        <b-progress type="is-info" :value="total_calories" :max="2400" size="is-large" show-value>
-            {{ Math.round(total_calories*100)/100 }} / 2400
-        </b-progress>
         <div class="diary-footer">
             <b-button class="save-btn" @click="saveDiary" icon-left="share-square">Save Food Diary</b-button>
         </div>
@@ -113,6 +115,7 @@ export default {
             dinner_rows: [],
             total_calories: 0,
             page_data: [],
+            calendar_events: [],
             qty_selection: 1
         }
     },
@@ -130,6 +133,7 @@ export default {
                 .then((response) => {
                     this.diary_data = response.data
                     this.loadCurrentDateData();
+                    this.filterCalendarData();
                 })
                 .catch((error) => console.log(error));
         }
@@ -310,6 +314,15 @@ export default {
                 this.dinner_rows = [];
                 this.total_calories = 0;
             }
+        },
+        // format all user date data to populate calendar
+        filterCalendarData() {
+            let calendarTempData = [];
+
+            for (let i = 0; i < this.diary_data.length; i++) {
+                calendarTempData.push({ date: new Date(this.diary_data[i].date), type: 'is-info'});
+            }
+            this.calendar_events = calendarTempData;
         },
         // go to previous day
         prevDay() {

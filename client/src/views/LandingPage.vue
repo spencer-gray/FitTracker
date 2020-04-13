@@ -24,7 +24,7 @@
               <i class="fas fa-user fa-7x icon-landing"></i>
             </div>
             <p class="description">Create and manage your own personal workout routines. Pick the exercises your interested in and set their respective 
-                reputations, sets, and/or weights. You can also modify and delete any unwanted workouts.</p>
+                reps, sets, and/or weights.</p>
           </div>
           <div class="advantage advantage-2">
             <div class="icon-background">

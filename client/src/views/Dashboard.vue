@@ -25,7 +25,7 @@
             <!-- if workout.length == 0 then have a unique display -->
             <div class="recent-activity-block">
                 <p class="activity-header"> Recent Workouts</p>
-                <div class="activity-item" v-bind:key="item.id" v-for="(item) in activity_items">
+                <div class="activity-item" v-bind:key="item.id" v-for="(item) in activity_items" @click="updateWorkout(item)">
                     {{ dateFormat(item.date) }}
                 </div>
             </div>
@@ -76,6 +76,10 @@ export default {
                             color: "white"
                         }
                     }],
+                },
+                title: {
+                    display: true,
+                    text: 'Training Volume'
                 }
             },
             categoryChartData: {},
@@ -143,13 +147,14 @@ export default {
 
             let tempDatasets= [
                     {
-                        label: category,
-                        backgroundColor: '#30475e',
-                        pointBackgroundColor: '#30475e',
+                        label: category + ' (lbs)',
+                        //backgroundColor: '#30475e',
+                        backgroundColor: 'rgba(179,181,198,0.5)',
                         borderColor: '#30475e',
                         data: chartTempData,
                         pointHitRadius: 20,
-                        pointRadius: 0
+                        pointRadius: 5,
+                        pointBackgroundColor: '#ffffff',
                     }
             ]
 
@@ -201,17 +206,23 @@ export default {
 
             let tempDatasets= [
                     {
-                        label: "Exercise Category Frequency",
-                        backgroundColor: '#30475e',
-                        pointBackgroundColor: '#30475e',
+                        label: "Exercise Frequency",
+                        //backgroundColor: '#30475e',
+                        backgroundColor: "rgba(179,181,198,0.5)",
+                        //pointBackgroundColor: '#30475e',
                         borderColor: '#30475e',
                         data: categoryCounts,
                         pointHitRadius: 20,
-                        pointRadius: 0
+                        pointRadius: 5,
+                        pointBackgroundColor: '#ffffff',
                     }
             ]
 
             this.categoryChartData = { datasets: tempDatasets, labels: categoryList }
+        },
+        updateWorkout(workout) {
+            this.$store.commit('setWorkout', workout);
+            this.$router.push("/update-workout");
         },
         // format date to human readable
         dateFormat(d) {

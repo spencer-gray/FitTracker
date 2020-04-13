@@ -1,10 +1,10 @@
 <template>
   <div class="activity-log">
     <div class="add-exercise">
-      <b-button class="add-exercise-btn" expanded size="is-large" icon-right="share-square" tag="router-link" :to="{ path: '/add-workout' } ">Add Exercise</b-button>
+      <b-button class="add-exercise-btn" expanded size="is-medium" icon-right="share-square" tag="router-link" :to="{ path: '/add-workout' } ">Add Exercise</b-button>
     </div>
     <div v-bind:key="item.id" v-for="(item) in paginatedItems">
-      <b-collapse class="card" :open="false" animation="slide" aria-id="contentIdForA11y3">
+      <b-collapse class="card" :open="true" animation="slide" aria-id="contentIdForA11y3">
             <div
                 slot="trigger" 
                 slot-scope="props"
@@ -167,7 +167,8 @@ export default {
 
 <style scoped lang="scss">
 .activity-log {
-    width: 80%;
+    width: 60%;
+    min-width: 380px;
     margin: 5rem auto;
 }
 
@@ -193,7 +194,7 @@ export default {
 }
 
 .pagination {
-  width: 50%;
+  // width: 50%;
   margin: 1rem auto;
 }
 
