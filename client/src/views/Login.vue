@@ -6,7 +6,6 @@
 
 <script>
 import LoginForm from '@/components/LoginForm.vue';
-//import axios from 'axios';
 
 export default {
   name: 'Login',
@@ -15,7 +14,7 @@ export default {
   },
   data() {
     return {
-        username: "",   // same ...
+        username: "",
         password: "",
     };
   },

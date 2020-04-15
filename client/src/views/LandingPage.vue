@@ -46,29 +46,29 @@
       <div class="content-block">
         <h2 class="title">Features</h2>
         <div class="advantages-content">
-
           <div class="feature">
             <img src="../assets/exercise_list.png" class="feature-img" alt="feature-1"/>
             <p class="description">Extensive exercise database with hundreds of unique exercises. Specify the area your interested in training and a list of
                                   relevant exercises will be generated.</p>
           </div>
-
           <div class="feature">
             <img src="../assets/activity_log.png" class="feature-img" alt="feature-2"/>
             <p class="description">Provides a complete, detailed history of all logged workouts. Create and manage your own personal workout routines.</p>
           </div>
-
           <div class="feature">
             <img src="../assets/data_visual.png" class="feature-img" alt="feature-3"/>
             <p class="description">Feature rich dashboard analyzing many aspects of your workouts, and how well you've progressed since joining the application</p>
           </div>
-
           <div class="feature">
             <img src="../assets/calendar.png" class="feature-img" alt="feature-3"/>
             <p class="description">Provides a quick overview of when you trained, and the targeted muscles. A complete history of your logged workouts
                                   in a clean and easy to read format.</p>
           </div>
-
+          <div class="feature">
+            <img src="../assets/food-diary.png" class="feature-img" alt="feature-3"/>
+            <p class="description">Monitor your food intake with access to over 700,000+ different food items from around the world. Track your calorie intake,
+                                  and make sure your staying on target!</p>
+          </div>
         </div>
       </div>
     </section>
@@ -80,16 +80,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "LandingPage",
-  props: {
-    sources: {
-      type: Array,
-      required: true
-    },
-    img: {
-      type: String
-    }
-  },
-  
   data () {
     return {
       videoRatio: null

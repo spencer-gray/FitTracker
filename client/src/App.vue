@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <LandingPage v-if="this.$route.path == '/'" :sources="['http://thenewcode.com/assets/videos/polina.mp4']"/>
+    <LandingPage v-if="this.$route.path == '/'"/>
     <div v-if="this.$route.path !== '/'">
       <Header title="Fitness Application"/>
       <Navbar />

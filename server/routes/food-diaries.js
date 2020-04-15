@@ -26,8 +26,6 @@ mongoose.connect('mongodb+srv://sg:2utryeDeBZ9UMqUm@csci3230u-project-npzhs.mong
 app.get('/', (req, res) => {  
     username = req.query.username;
 
-    // add a date filter too
-
     FoodDiaries.find({ username: username })
         .then(diary => res.json(diary))
         .catch(err => res.status(404).send(err));

@@ -78,7 +78,7 @@ io.on("connection", socket => {
 // User Data
 app.use('/users', require('./routes/users'));
 
-// Workout Data
+// User Workout Data
 app.use('/workouts', require('./routes/workouts'));
 
 // Chatroom Data
@@ -86,9 +86,6 @@ app.use('/chat', require('./routes/chatroom'));
 
 // Exercise Data / Images
 app.use('/api/exercise_data', require('./routes/api/exercise_data'));
-
-// User Workouts
-app.use('/api/workouts', require('./routes/api/workouts'));
 
 // User Food Diaries
 app.use('/food-diaries', require('./routes/food-diaries'));

@@ -286,11 +286,9 @@ export default {
             // check for any records on selected data (and current user)
             let daily_record = diary_list.filter(e => e.date === formatted_date);
             if (daily_record.length > 0) {
-                //console.log(daily_record);
                 return daily_record;
             }
             else {
-                //console.log('No entries...');
                 return [];
             }
         },

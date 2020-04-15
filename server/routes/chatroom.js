@@ -22,7 +22,7 @@ mongoose.connect('mongodb+srv://sg:2utryeDeBZ9UMqUm@csci3230u-project-npzhs.mong
                     {   useUnifiedTopology: true , 
                         useNewUrlParser: true });
 
-                        // Get workout data - query by username
+// Get chatroom data - sort by date and limit to 100 messages
 app.get('/', (req, res) => {  
     search = req.query.username;
     Chat.find({}).sort({date:-1}).limit(100)

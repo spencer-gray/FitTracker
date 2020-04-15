@@ -79,7 +79,7 @@ export default {
                 },
                 title: {
                     display: true,
-                    text: 'Training Volume'
+                    text: 'Training Volume (reps x sets x weight)'
                 }
             },
             categoryChartData: {},

@@ -93,14 +93,4 @@ app.get('/', (req, res) => {
         .catch(err => res.status(404).send(err));
 });
 
-// Get workout data (Depreciated: retrieves all workouts - might be of use later)
-// app.get('/', async (req, res) => {  
-//     try {
-//         var result = await Workout.find().exec();
-//         res.send(result);
-//     } catch (err) {
-//         res.status(500).send(err);
-//     }
-// });
-
 module.exports = app;
