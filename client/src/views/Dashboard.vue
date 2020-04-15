@@ -29,8 +29,8 @@
                     {{ dateFormat(item.date) }}
                 </div>
             </div>
-            <div class="category-chart-block">
-                <CategoryChart class="chart" v-if="loaded" :chartdata="categoryChartData" :options="categoryChartOptions"/>
+            <div>
+                <CategoryChart v-if="loaded" :series="categoryChartData.series" :labels="categoryChartData.labels"/>
             </div>
         </div>
     </div>
@@ -50,13 +50,13 @@ export default {
     name: 'Dashboard',
     components: {
         CoreLiftsChart,
+        // PieChart,
         CategoryChart
     },
     data() {
         return {
             workouts: [],
             loaded: false,
-            gradient: null,
             testData: [],
             coreChartData: {},
             coreChartOptions: {
@@ -145,15 +145,15 @@ export default {
             labelData.reverse();
             chartTempData.reverse();
 
+            // setting chart params
             let tempDatasets= [
                     {
                         label: category + ' (lbs)',
-                        //backgroundColor: '#30475e',
                         backgroundColor: 'rgba(179,181,198,0.5)',
                         borderColor: '#30475e',
                         data: chartTempData,
                         pointHitRadius: 20,
-                        pointRadius: 5,
+                        pointRadius: 0,
                         pointBackgroundColor: '#ffffff',
                     }
             ]
@@ -204,21 +204,7 @@ export default {
                 categoryCounts.push(map[m]);
             }
 
-            let tempDatasets= [
-                    {
-                        label: "Exercise Frequency",
-                        //backgroundColor: '#30475e',
-                        backgroundColor: "rgba(179,181,198,0.5)",
-                        //pointBackgroundColor: '#30475e',
-                        borderColor: '#30475e',
-                        data: categoryCounts,
-                        pointHitRadius: 20,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#ffffff',
-                    }
-            ]
-
-            this.categoryChartData = { datasets: tempDatasets, labels: categoryList }
+            this.categoryChartData = { series: categoryCounts, labels: categoryList };
         },
         updateWorkout(workout) {
             this.$store.commit('setWorkout', workout);
