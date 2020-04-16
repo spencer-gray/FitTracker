@@ -2,7 +2,6 @@
 	<div class="chatroom">
 		<div class="chatroom-header">
             Live Chat Room
-			<!-- <p class="online">Online: {{ users.length }}</p> -->
 		</div>
 		<Chat v-bind:messages="messages" v-bind:username="username" v-on:sendMessage="this.sendMessage" />
 	</div>

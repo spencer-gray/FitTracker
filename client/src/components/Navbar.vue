@@ -74,9 +74,6 @@
 </template>
 
 <script>
-// Will below need when authentication is setup
-
-// import auth from '../auth'
 import { mapGetters } from 'vuex';
 
 export default {

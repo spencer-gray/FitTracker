@@ -3,7 +3,6 @@
     <div class="content" v-if='category != null'>
         <div v-bind:key="exercise.id" v-for="exercise in exercises" @click="goToDetails(exercise)">
             <div class="item" v-if="exercise.fields.category === category">
-                <!-- could have a exercise image field too-->
                 <p>{{ exercise.fields.name }}</p>
             </div>
         </div>

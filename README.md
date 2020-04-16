@@ -1,11 +1,13 @@
 # FitTracker
-## csci3230-project
-Final group project for CSCI 3230U
 
 Fitness web application built with Node.js/Vue.js/MongoDB
 
 ### Development Install/Run Instructions
 
+ - A test account was created and is pre-filled with data. (or you can register a new account)
+    - Username: testuser
+    - Password: password
+    
  - MongoDB Atlas was used to manage the database and is already connected
 
 # backend
@@ -19,4 +21,5 @@ npm run dev
 cd client
 npm install
 npm run serve
+# server will be started on http://localhost:8080/
 ```

@@ -11,8 +11,6 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "apexcharts": "^3.18.1",
     "axios": "^0.19.2",
-    "bootstrap": "^4.4.1",
-    "bootstrap-vue": "^2.7.0",
     "buefy": "^0.8.13",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
