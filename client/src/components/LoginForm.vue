@@ -66,7 +66,7 @@ export default {
                 username: this.username,
                 password: this.password
             }
-            axios.post('http://localhost:5000/users/login', user)
+            axios.post('users/login', user)
                 .then(res => {
                     // Successful login
                     if (res.status === 200) {

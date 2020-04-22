@@ -21,7 +21,7 @@ export default {
 	data: function () {
 		return {
 			username: "",
-			socket: io("http://localhost:5000"),
+			socket: io(),
 			messages: [],
 			users: []
 		}
@@ -63,7 +63,7 @@ export default {
         this.$router.push('login');
     } else {
         this.username = this.$store.getters.getUsername;
-        axios.get('http://localhost:5000/chat')
+        axios.get('chat')
           .then((response) => this.messages = response.data.reverse())
           .catch((error) => console.log(error));
 

@@ -67,7 +67,7 @@ export default {
         } else {
             // get exercise data from vuex state
             this.exercise = this.$store.getters.getExercise
-            axios.get('http://localhost:5000/api/exercise_data/images/' + this.exercise.pk)
+            axios.get('api/exercise_data/images/' + this.exercise.pk)
                 .then((response) => this.images = response.data.results)
                 .catch((error) => console.log(error));
         }

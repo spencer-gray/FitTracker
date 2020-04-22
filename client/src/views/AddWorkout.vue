@@ -132,7 +132,7 @@ export default {
       this.$router.push("login");
     } else {
       axios
-        .get("http://localhost:5000/api/exercise_data")
+        .get("api/exercise_data")
         .then(response => (this.exerciseData = response.data))
         .catch(error => console.log(error));
     }
@@ -156,7 +156,7 @@ export default {
         exercises: this.rows,
         date: this.date
       };
-      axios.post("http://localhost:5000/workouts/addworkout", workout).then(
+      axios.post("workouts/addworkout", workout).then(
         res => {
           console.log(res);
           this.error = "";

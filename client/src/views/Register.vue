@@ -100,7 +100,7 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            axios.post('http://localhost:5000/users/register', newUser)
+            axios.post('users/register', newUser)
                 .then(res => {
                     console.log(res);
                     this.error = '';

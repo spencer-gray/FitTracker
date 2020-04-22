@@ -100,7 +100,7 @@ export default {
         this.$router.push('login');
     } else {
         this.username = this.$store.getters.getUsername;
-        axios.get('http://localhost:5000/workouts?username=' + this.username)
+        axios.get('workouts?username=' + this.username)
           .then((response) => this.workouts = response.data)
           .catch((error) => console.log(error));
     }
@@ -129,7 +129,7 @@ export default {
         id: id,
       };
       //let id = this.id;
-      axios.post("http://localhost:5000/workouts/deleteworkout", workout).then(
+      axios.post("workouts/deleteworkout", workout).then(
         res => {
           console.log(res);
           const index = this.workouts.findIndex(workout => workout._id == id) // find workout index

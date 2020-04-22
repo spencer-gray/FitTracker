@@ -90,6 +90,15 @@ app.use('/api/exercise_data', require('./routes/api/exercise_data'));
 // User Food Diaries
 app.use('/food-diaries', require('./routes/food-diaries'));
 
+// Production Handling
+if (process.env.NODE_ENV === 'production') {
+    // Static folder
+    app.use(express.static(__dirname + '/public'));
+
+    // Single-Page App Handling
+    app.get(/.*/, (req, res) => { res.sendFile(__dirname + 'public/index.html')});
+}
+
 const port = process.env.PORT || 5000;
 
 http.listen(port, () => console.log(`Server started on port ${port}`));

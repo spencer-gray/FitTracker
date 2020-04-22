@@ -106,13 +106,13 @@ export default {
             this.$router.push('login');
         } else {
             // retrieve general exercise data for radar map comparison (could be refactored by bringing to the backend)
-            axios.get('http://localhost:5000/api/exercise_data')
+            axios.get('api/exercise_data')
                 .then((response) => this.exerciseList = response.data)
                 .catch((error) => console.log(error));
 
             this.username = this.$store.getters.getUsername;
             // retrieve current users workout data
-            axios.get('http://localhost:5000/workouts?username=' + this.username)
+            axios.get('workouts?username=' + this.username)
             .then((response) => {
                 this.workouts = response.data;
                 // initialize chart data with bench press data

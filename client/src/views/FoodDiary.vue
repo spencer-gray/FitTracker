@@ -129,7 +129,7 @@ export default {
             
             this.date.setHours(0,0,0,0) // need a constant time of day for backend comparison
             // get diary data for current user
-            axios.get('http://localhost:5000/food-diaries?username=' + this.username)
+            axios.get('food-diaries?username=' + this.username)
                 .then((response) => {
                     this.diary_data = response.data
                     this.loadCurrentDateData();
@@ -249,7 +249,7 @@ export default {
             }
 
             // post request handles both update/addition of new diary entries
-            axios.post("http://localhost:5000/food-diaries/addOrUpdateDiary", curr_diary).then(
+            axios.post("food-diaries/addOrUpdateDiary", curr_diary).then(
                 res => {
                     console.log(res);
                     this.error = "";
@@ -258,7 +258,7 @@ export default {
                         type: "is-success"
                     });
                     // get request to retrieve new diary log on successfull post (dynamic page update without reload)
-                    axios.get('http://localhost:5000/food-diaries?username=' + this.username)
+                    axios.get('food-diaries?username=' + this.username)
                         .then((response) => {
                             this.diary_data = response.data
                             this.loadCurrentDateData();

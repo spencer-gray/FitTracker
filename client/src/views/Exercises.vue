@@ -32,7 +32,7 @@ export default {
     if (localStorage.getItem('token') === null) {
         this.$router.push('login');
     } else {
-      axios.get('http://localhost:5000/api/exercise_data')
+      axios.get('api/exercise_data')
           .then((response) => this.exercises = response.data)
           .catch((error) => console.log(error));
     }
