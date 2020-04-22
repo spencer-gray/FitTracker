@@ -54,13 +54,13 @@
             </b-navbar-item>
             <b-navbar-item v-if='getLoginState === true' tag="div">
                 <div class="buttons">
-                    <b-button
+                    <!-- <b-button
                         class="profileButton"
                         icon-left="user"
                         tag="router-link"
                         to="/profile">
                         Profile
-                    </b-button>
+                    </b-button> -->
                     <b-button
                         class="logoutButton"
                         v-on:click="logout">
