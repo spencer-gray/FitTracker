@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-
+const sslRedirect = require('heroku-ssl-redirect');
 
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
@@ -16,6 +16,9 @@ let messages = [];
 
 // Middleware
 app.use(cors());
+
+// enable ssl redirect
+app.use(sslRedirect());
 
 const Chat = require('./models/Chat');
 
