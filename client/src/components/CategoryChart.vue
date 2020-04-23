@@ -1,6 +1,6 @@
 <template>
     <div class="pie-chart">
-        <VueApexCharts height="400" type="donut" :options="chartOptions" :series="series"></VueApexCharts>
+        <VueApexCharts height="350" type="donut" :options="chartOptions" :series="series"></VueApexCharts>
     </div>
 </template>
 

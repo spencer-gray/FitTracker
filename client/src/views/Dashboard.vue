@@ -3,7 +3,14 @@
         <div class="dash-title">
             {{ getUsername.charAt(0).toUpperCase() + getUsername.slice(1) }}'s Dashboard
         </div>
-        <div class="dash-content">
+        <div class="no-data" v-if="workouts.length === 0 && loaded">
+            <div class="icon-not-found">
+              <i class="fas fa-question-circle fa-10x"></i>
+            </div>
+            <p>You have no workouts recorded!</p>
+            <p>Start logging your exercises to visualize your progress.</p>
+        </div>
+        <div class="dash-content" v-if="workouts.length != 0">
             <div class="core-chart-block">
                 <div class="chart-btns">
                     <b-button class="chart-btn" ref="initialselection" @click="filterChartData('Bench Press')">Bench Press</b-button>
@@ -29,7 +36,7 @@
                     {{ dateFormat(item.date) }}
                 </div>
             </div>
-            <div>
+            <div class="category-chart-block">
                 <CategoryChart v-if="loaded" :series="categoryChartData.series" :labels="categoryChartData.labels"/>
             </div>
         </div>
@@ -118,11 +125,12 @@ export default {
                 // initialize chart data with bench press data
                 this.filterChartData('Bench Press');
                 this.loaded = true;
-                this.$refs.initialselection.$el.focus();
                 // format data for calendar component
                 this.filterCalendarData();
                 this.filterActivityData();
                 this.filterCategoryData();
+
+                this.$refs.initialselection.$el.focus();
             })
             .catch((error) => console.log(error));
         }
@@ -243,6 +251,18 @@ export default {
     width: auto;
     margin: 2rem auto;
 
+    .no-data {
+        margin: 2rem auto;
+        width: 80%;
+        text-align: center;
+        .icon-not-found {
+            margin: 2rem 0;
+        }
+        p {
+            padding: 1rem 0;
+        }
+    }
+
     .dash-content {
         width: 80%;
         min-width: 380px;
@@ -320,7 +340,7 @@ export default {
         cursor: pointer;
     }
     .category-chart-block {
-        flex-basis: 30%;
+        // flex-basis: 30%;
         margin: 2rem;
     }
 
